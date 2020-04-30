@@ -1,10 +1,22 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import "./stylesheets/App.css";
+import TopPage from "./components/top/TopPage";
+import "./stylesheets/App.scss";
 
-class APP extends React.Component<Props, State> {
+interface Props {}
+interface State {}
+
+class App extends React.Component<Props, State> {
   public render() {
-    <div className="App"></div>;
+    return (
+      <div className="App">
+        <BrowserRouter>
+          <Switch>
+            <Route exact={true} path={"/"} component={TopPage} />
+          </Switch>
+        </BrowserRouter>
+      </div>
+    );
   }
 }
 

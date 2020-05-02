@@ -3,9 +3,13 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
 import Header from "./components/common/Header";
 import Sidebar from "./components/common/Sidebar";
+
 import TopPage from "./components/top/TopPage";
+import StudentView from "./components/student/StudentView";
+
 import "./stylesheets/App.scss";
 
 interface Props {}
@@ -20,13 +24,17 @@ class App extends React.Component<Props, State> {
             <Header />
           </Row>
           <Row>
-            <Col sm={2}>
+            <Col sm={2} className="p-0">
               <Sidebar />
             </Col>
-            <Col sm={10}>
+            <Col sm={10} className="p-0">
               <BrowserRouter>
                 <Switch>
                   <Route exact={true} path={"/"} component={TopPage} />
+                  <Route
+                    path={"/student/:student_id"}
+                    component={StudentView}
+                  />
                 </Switch>
               </BrowserRouter>
             </Col>

@@ -2,7 +2,6 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
@@ -16,18 +15,18 @@ class Header extends React.Component<Props, State> {
   public render() {
     return (
       <Container fluid>
-        <Navbar className="p-3" bg="dark" variant="dark" expand="lg">
+        <Navbar className="p-1" bg="dark" variant="dark" expand="lg">
           <Navbar.Brand href="#home">
             <img
               src={logo}
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
+              width="50"
+              height="50"
+              className="d-inline-block align-top ml-3"
               alt="React"
             />
           </Navbar.Brand>
           <Nav className="mr-auto">
-            <Nav.Link id="home" href="#home">
+            <Nav.Link id="home" href="/">
               Home
             </Nav.Link>
             <Form inline>

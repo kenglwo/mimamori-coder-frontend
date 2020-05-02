@@ -12,6 +12,9 @@ class Sidebar extends React.Component<Props, State> {
         <Button variant="dark" block href="#">
           Overview
         </Button>
+        <Button variant="dark" block href="#">
+          Statistics
+        </Button>
       </div>
     );
   }

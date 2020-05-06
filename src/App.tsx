@@ -8,6 +8,7 @@ import Header from "./components/common/Header";
 import Sidebar from "./components/common/Sidebar";
 
 import TopPage from "./components/top/TopPage";
+import Overview from "./components/overview/Overview";
 import StudentView from "./components/student/StudentView";
 
 import "./stylesheets/App.scss";
@@ -31,8 +32,9 @@ class App extends React.Component<Props, State> {
               <BrowserRouter>
                 <Switch>
                   <Route exact={true} path={"/"} component={TopPage} />
+                  <Route path={"/overview"} component={Overview} />
                   <Route
-                    path={"/student/:student_id"}
+                    path={"/student/:student_id/:student_name"}
                     component={StudentView}
                   />
                 </Switch>

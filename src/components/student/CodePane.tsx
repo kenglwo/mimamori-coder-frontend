@@ -19,31 +19,43 @@ import {
 
 import "../../stylesheets/StudentView.scss";
 
-interface Props {}
+interface Props {
+  student_id: string;
+  currentCommitIndex: number;
+  commitTotalNum: number;
+  showOlderCommit: () => void;
+  showNewerCommit: () => void;
+}
 interface State {
+  student_id: string;
   fileName: string;
   updatedTime: string;
+  // currentCommitIndex: number;
+  // commitTotalNum: number;
   codeString: string;
   codeStatus: string;
   syntaxStyle: string;
 }
 
-class CodePange extends React.Component<Props, State> {
+class CodePane extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      fileName: "hello.html",
-      updatedTime: "2020-05-02 14:20",
+      student_id: this.props.student_id,
+      fileName: "",
+      updatedTime: "",
+      // currentCommitIndex: this.props.currentCommitIndex,
+      // commitTotalNum: this.props.commitTotalNum,
       codeString: "",
-      codeStatus: "ok",
+      codeStatus: "",
       syntaxStyle: darcula,
     };
   }
 
   public componentDidMount() {
-    // fetch sudent data with the student_id
-    // ...
+    // TODO: fetch sudent data with the student_id
+    // 1. fetch codeString with student_id and currentCommitIndex
     const codeString: string = `
 <html>
 	<head>
@@ -56,12 +68,25 @@ class CodePange extends React.Component<Props, State> {
 </html>
     	`;
 
+    // 2. fetch filename
+    // 3. fetch updatedTime
+    // 4. fetch codeStatus
+
     this.setState((state) => {
       return {
         codeString: codeString,
+        fileName: "hello.index",
+        updatedTime: "2020-05-02 14:50",
+        codeStatus: "ok",
       };
     });
   }
+
+  // static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+  //   return {
+  //     currentCommitIndex: nextProps.currentCommitIndex,
+  //   };
+  // }
 
   public render() {
     return (
@@ -91,25 +116,31 @@ class CodePange extends React.Component<Props, State> {
         </SyntaxHighlighter>
 
         <div className="mb-4">
-          <button type="button" className="btn btn-outline-secondary">
-            {"<"}
-          </button>
+          {this.props.currentCommitIndex > 1 && (
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={this.props.showOlderCommit}
+            >
+              {"<"}
+            </button>
+          )}
           <span className="badge badge-secondary ml-4 mr-4">
             {this.state.updatedTime}
           </span>
-          <button type="button" className="btn btn-outline-secondary">
-            {">"}
-          </button>
+          {this.props.currentCommitIndex < this.props.commitTotalNum && (
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={this.props.showNewerCommit}
+            >
+              {">"}
+            </button>
+          )}
         </div>
       </div>
     );
-    // return (
-    //   <div>
-    //     <div className="bg-info p-1 text-white font-weight-bold">Code Pane</div>
-    //     <pre className="prettyprint">{code}</pre>
-    //   </div>
-    // );
   }
 }
 
-export default CodePange;
+export default CodePane;

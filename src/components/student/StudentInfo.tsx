@@ -8,7 +8,6 @@ interface Props {
 interface State {}
 
 class StudentInfo extends React.Component<Props, State> {
-
   public render() {
     return (
       <div>

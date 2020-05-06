@@ -1,3 +1,11 @@
+## Overview (under development)
+
+<img width="1552" alt="overview" src="https://user-images.githubusercontent.com/39261875/81158230-bae1a980-8fc2-11ea-8d43-98e943d62577.png">
+
+## Student View (under development)
+<img width="1552" alt="student_view" src="https://user-images.githubusercontent.com/39261875/81158263-c2a14e00-8fc2-11ea-9718-400347e970f7.png">
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

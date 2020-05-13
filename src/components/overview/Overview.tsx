@@ -4,7 +4,7 @@ import Row from "react-bootstrap/Row";
 
 import Toolbar from "./Toolbar";
 import StudentsTable from "./StudentsTable";
-import { DisplayOption, StudentTableItem } from "../models/Types";
+import { DisplayOption } from "../models/Types";
 
 interface Props {}
 interface State {

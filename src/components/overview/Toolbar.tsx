@@ -1,5 +1,5 @@
 import React from "react";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
+// import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -11,9 +11,9 @@ interface Props {
 interface State {}
 
 class Toolbal extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-  }
+  // constructor(props: Props) {
+  //   super(props);
+  // }
 
   public render() {
     return (

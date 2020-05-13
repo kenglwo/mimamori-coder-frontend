@@ -1,33 +1,32 @@
 import React from "react";
-import { RouteComponentProps } from "react-router-dom";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 // import Container from "react-bootstrap/Container";
 // import Col from "react-bootstrap/Col";
 // import Row from "react-bootstrap/Row";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
   darcula,
-  hopscotch,
-  cb,
-  tomorrow,
-  twilight,
-  ghcolors,
-  vs,
-  prism,
-  solarizedlight,
+  // hopscotch,
+  // cb,
+  // tomorrow,
+  // twilight,
+  // ghcolors,
+  // vs,
+  // prism,
+  // solarizedlight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 import "../../stylesheets/StudentView.scss";
 
 interface Props {
-  student_id: string;
+  studentID: string;
   currentCommitIndex: number;
   commitTotalNum: number;
   showOlderCommit: () => void;
   showNewerCommit: () => void;
 }
 interface State {
-  student_id: string;
+  studentID: string;
   fileName: string;
   updatedTime: string;
   // currentCommitIndex: number;
@@ -42,7 +41,7 @@ class CodePane extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      student_id: this.props.student_id,
+      studentID: this.props.studentID,
       fileName: "",
       updatedTime: "",
       // currentCommitIndex: this.props.currentCommitIndex,
@@ -54,8 +53,8 @@ class CodePane extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    // TODO: fetch sudent data with the student_id
-    // 1. fetch codeString with student_id and currentCommitIndex
+    // TODO: fetch sudent data with the studentID
+    // 1. fetch codeString with studentID and currentCommitIndex
     const codeString: string = `
 <html>
 	<head>
@@ -97,13 +96,13 @@ class CodePane extends React.Component<Props, State> {
           id="filename_tag"
         >
           <span className="badge badge-secondary">{this.state.fileName}</span>
-          {this.state.codeStatus == "ok" && (
+          {this.state.codeStatus === "ok" && (
             <span className="badge badge-primary ml-3">OK</span>
           )}
-          {this.state.codeStatus == "error" && (
+          {this.state.codeStatus === "error" && (
             <span className="badge badge-danger ml-3">Error</span>
           )}
-          {this.state.codeStatus == "warning" && (
+          {this.state.codeStatus === "warning" && (
             <span className="badge badge-warning ml-3">Warning</span>
           )}
         </div>

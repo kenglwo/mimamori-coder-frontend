@@ -2,13 +2,15 @@ import React from "react";
 import Table from "react-bootstrap/Table";
 
 interface Props {
-  student_id: string;
-  student_name: string;
+  studentID: string;
+  studentName: string;
 }
 interface State {}
 
 class StudentInfo extends React.Component<Props, State> {
   public render() {
+    console.log(`sutdentID: ${this.props.studentID}`);
+    console.log(`sutdentID: ${this.props.studentName}`);
     return (
       <div>
         <div className="bg-secondary p-1 text-white font-weight-bold">
@@ -18,11 +20,11 @@ class StudentInfo extends React.Component<Props, State> {
           <tbody>
             <tr>
               <td>Student ID</td>
-              <td>{this.props.student_id}</td>
+              <td>{this.props.studentID}</td>
             </tr>
             <tr>
               <td>Student Name</td>
-              <td>{this.props.student_name}</td>
+              <td>{this.props.studentName}</td>
             </tr>
           </tbody>
         </Table>

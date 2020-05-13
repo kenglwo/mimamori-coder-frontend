@@ -1,8 +1,8 @@
 import React from "react";
-import { RouteComponentProps } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+// import { RouteComponentProps } from "react-router-dom";
+// import Container from "react-bootstrap/Container";
+// import Col from "react-bootstrap/Col";
+// import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 
 import { commit_log_seed } from "./commit_log_seed";
@@ -13,12 +13,12 @@ interface CommitLog {
 }
 
 interface Props {
-  student_id: string;
+  studentID: string;
   currentCommitIndex: number;
   commitTotalNum: number;
 }
 interface State {
-  student_id: string;
+  studentID: string;
   commit_logs: CommitLog[];
 }
 
@@ -27,13 +27,13 @@ class CommitLog extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      student_id: this.props.student_id,
+      studentID: this.props.studentID,
       commit_logs: [],
     };
   }
 
   public componentDidMount() {
-    // TODO: fetch commit log (filename, commit time) with student_id via API
+    // TODO: fetch commit log (filename, commit time) with studentID via API
     // this.setState((state) => {
     //   return {
     //     commit_logs: ?,
@@ -44,7 +44,7 @@ class CommitLog extends React.Component<Props, State> {
   public render() {
     // commit_logs should be order by desc
     const commit_logs = commit_log_seed.map((item, i) =>
-      this.props.commitTotalNum - i == this.props.currentCommitIndex ? (
+      this.props.commitTotalNum - i === this.props.currentCommitIndex ? (
         <tr key={i} className="bg-info text-dark">
           <td>{this.props.commitTotalNum - i}</td>
           <td>{item.file_name}</td>

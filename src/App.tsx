@@ -34,7 +34,7 @@ class App extends React.Component<Props, State> {
                   <Route exact={true} path={"/"} component={TopPage} />
                   <Route path={"/overview"} component={Overview} />
                   <Route
-                    path={"/student/:student_id/:student_name"}
+                    path={"/student/:studentID/:studentName"}
                     component={StudentView}
                   />
                 </Switch>

@@ -1,8 +1,8 @@
 import React from "react";
-import { RouteComponentProps } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+// import { RouteComponentProps } from "react-router-dom";
+// import Container from "react-bootstrap/Container";
+// import Col from "react-bootstrap/Col";
+// import Row from "react-bootstrap/Row";
 
 interface Props {}
 interface State {}
@@ -52,6 +52,7 @@ class PreviewPane extends React.Component<Props, State> {
           Preview Pane
         </div>
         <iframe
+          title={"Code Preview"}
           className="bg-white w-100"
           srcDoc={code}
           frameBorder={"no"}

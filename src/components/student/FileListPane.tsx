@@ -1,17 +1,17 @@
 import React from "react";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import ListGroup from "react-bootstrap/ListGroup";
+// import Container from "react-bootstrap/Container";
+// import Col from "react-bootstrap/Col";
+// import Row from "react-bootstrap/Row";
+import Table from "react-bootstrap/Table";
 
-import { file_list_seed } from "./file_list_seed";
+// import { fileList_seed } from "./fileList_seed";
 
 interface Props {
-  student_id: string;
+  studentID: string;
 }
 interface State {
-  student_id: string;
-  file_list: string[];
+  studentID: string;
+  fileNameList: string[];
 }
 
 class FileListPane extends React.Component<Props, State> {
@@ -19,39 +19,58 @@ class FileListPane extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      student_id: this.props.student_id,
-      file_list: [],
+      studentID: this.props.studentID,
+      fileNameList: [],
     };
+
+    this.loadFileList = this.loadFileList.bind(this);
   }
 
   public componentDidMount() {
-    // TODO: fetch file list with student_id using API
-    // this.setState((state) => {
-    // 	return {
-    // 		file_list: ?
-    // 	}
-    // });
+    this.loadFileList();
   }
 
-  file_list = file_list_seed.map((item, i) => (
-    <ListGroup.Item key={i} variant="dark">
-      {item.file_name}
-    </ListGroup.Item>
-  ));
+  public loadFileList() {
+    const url = `http://localhost:3001/api/student_view/file_list?student_id=${this.state.studentID}`;
 
-  // file_list = this.state.file_list.map((item, i) => (
-  //   <ListGroup.Item key={i} variant="dark">
-  //     {item.file_name}
-  //   </ListGroup.Item>
-  // ));
+    fetch(url, { mode: "cors" })
+      .then((res) => res.json())
+      .then(
+        (jsonData) => {
+          this.setState({ fileNameList: jsonData["fileNameList"] });
+        },
+        (error) => {
+          console.log("API Error");
+          // this.setState({
+          //   // error,
+          //   isLoaded: true
+          /// });
+        }
+      );
+  }
 
   public render() {
+    const fileList = this.state.fileNameList.map((fileName, i) => (
+      <tr key={i}>
+        <td>{i + 1}</td>
+        <td>{fileName}</td>
+      </tr>
+    ));
+
     return (
       <div className="mb-5">
         <div className="bg-secondary p-1 text-white font-weight-bold">
           File List
         </div>
-        <ListGroup>{this.file_list}</ListGroup>
+        <Table striped bordered hover variant="dark">
+          <thead>
+            <tr>
+              <th>No. </th>
+              <th>File Name</th>
+            </tr>
+          </thead>
+          <tbody>{fileList}</tbody>
+        </Table>
       </div>
     );
   }

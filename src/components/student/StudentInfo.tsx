@@ -9,8 +9,6 @@ interface State {}
 
 class StudentInfo extends React.Component<Props, State> {
   public render() {
-    console.log(`sutdentID: ${this.props.studentID}`);
-    console.log(`sutdentID: ${this.props.studentName}`);
     return (
       <div>
         <div className="bg-secondary p-1 text-white font-weight-bold">

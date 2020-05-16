@@ -35,5 +35,15 @@ export type StudentViewItem = {
   studentName: string;
   commitTotalNum: number;
   currentCommitIndex: number;
-  files: FileInfo[];
+};
+
+export type FileStatus = "A" | "M" | "D";
+export type CommitFile = {
+  fileName: string;
+  fileStatus: FileStatus;
+};
+
+export type CommitLogInfo = {
+  commitTime: string;
+  commitFile: CommitFile[];
 };

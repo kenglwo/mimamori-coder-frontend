@@ -42,7 +42,6 @@ class StudentView extends React.Component<Props, State> {
       studentName: this.props.match.params.studentName,
       commitTotalNum: 0,
       currentCommitIndex: 0,
-      files: [],
     };
 
     this.showOlderCommit = this.showOlderCommit.bind(this);
@@ -82,7 +81,6 @@ class StudentView extends React.Component<Props, State> {
           this.setState({
             commitTotalNum: jsonData["commitTotalNum"],
             currentCommitIndex: jsonData["commitTotalNum"],
-            files: jsonData.files,
           });
         },
         (error) => {
@@ -96,23 +94,7 @@ class StudentView extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    // TODO: fetch sudent data with the studentID using API
-
-    // 1. commitTotalNum
-    // const commitTotalNum: number = commit_log_seed.length;
-    const commitTotalNum: number = commit_log_seed.length;
-
-    // 2. fetch filename of the latest commit
-    const filename = "";
-
-    // 3. fetch updated_time of the filename
-    const updated_time = "";
-
-    // this.setState((state) => {
-    //   return {
-    //     files: [],
-    //   };
-    // });
+    this.loadStudentItem();
   }
 
   public render() {

@@ -13,8 +13,6 @@ import PreviewPane from "./PreviewPane";
 
 import { StudentViewItem } from "../models/Types";
 
-import { commit_log_seed } from "./commit_log_seed";
-
 interface DebugMessage {
   fileName: string;
   messages: string[];

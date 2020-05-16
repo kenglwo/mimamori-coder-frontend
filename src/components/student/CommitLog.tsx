@@ -39,7 +39,6 @@ class CommitLog extends React.Component<Props, State> {
       .then(
         (jsonData) => {
           this.setState({ commitLogs: jsonData });
-          console.log(this.state.commitLogs);
         },
         (error) => {
           console.log("Error: loadAllStudentTableItems");

@@ -4,59 +4,80 @@ import React from "react";
 // import Col from "react-bootstrap/Col";
 // import Row from "react-bootstrap/Row";
 
-interface Props {}
-interface State {}
+interface Props {
+  studentID: string;
+  currentCommitIndex: number;
+}
+interface State {
+  studentID: string;
+  currentCommitIndex: number;
+  codeStrings: {
+    [key: string]: string;
+  }[];
+}
 
 class PreviewPane extends React.Component<Props, State> {
-  // constructor(props: Props) {
-  //   super(props);
+  constructor(props: Props) {
+    super(props);
 
-  // this.state = {
-  //   student_id: student_id,
-  //   student_name: "",
-  //     // };
-  //   }
+    this.state = {
+      studentID: this.props.studentID,
+      currentCommitIndex: this.props.currentCommitIndex,
+      codeStrings: [],
+    };
+
+    this.loadCodeStrings = this.loadCodeStrings.bind(this);
+  }
+
+  public loadCodeStrings(currentCommitIndex: number) {
+    const url = `http://localhost:3001/api/student_view/code_string?student_id=${this.state.studentID}&current_commit_index=${currentCommitIndex}`;
+
+    fetch(url, { mode: "cors" })
+      .then((res) => res.json())
+      .then(
+        (jsonData) => {
+          this.setState({
+            codeStrings: jsonData,
+          });
+        },
+        (error) => {
+          console.log("Error: loadAllStudentTableItems");
+          // this.setState({
+          //   // error,
+          //   isLoaded: true
+          /// });
+        }
+      );
+  }
 
   public componentDidMount() {
-    // fetch sudent data with the student_id
-    // ...
-    // const student_name = "John";
-    //
-    // this.setState((state) => {
-    //   return {
-    //     student_name: student_name,
-    //   };
-    // });
+    // this.loadCodeStrings();
+  }
+
+  public componentDidUpdate(prevProps: Props) {
+    if (this.props.currentCommitIndex !== prevProps.currentCommitIndex) {
+      this.setState({ currentCommitIndex: this.props.currentCommitIndex });
+      this.loadCodeStrings(this.props.currentCommitIndex);
+    }
   }
 
   public render() {
-    const code: string = `
-			<html>
-				<head>
-				<meta charset="utf-8" />
-				<title>タイトル</title>
-				</head>
-				<body>
-					<h1>Hello World!</h1>
-					<h2>Hello World!</h2>
-					<h3>Hello World!</h3>
-					<h4>Hello World!</h4>
-					<h5>Hello World!</h5>
-				</body>
-			</html>
-			`;
+    const iframes = this.state.codeStrings.map((item, i) => (
+      <iframe
+        key={i}
+        title={"Code Preview"}
+        className="bg-white w-100"
+        srcDoc={item.codeString}
+        frameBorder={"no"}
+      ></iframe>
+    ));
 
     return (
       <div>
         <div className="bg-success p-1 text-white font-weight-bold">
           Preview Pane
         </div>
-        <iframe
-          title={"Code Preview"}
-          className="bg-white w-100"
-          srcDoc={code}
-          frameBorder={"no"}
-        ></iframe>
+        {iframes}
       </div>
     );
   }

@@ -48,10 +48,6 @@ class StudentView extends React.Component<Props, State> {
   }
 
   public showOlderCommit() {
-    // 1. set currentCommitIndex
-    // 2. fetch file name with the new currentCommitIndex
-    // 3. fetch updated time with the new currentCommitIndex
-
     this.setState((state) => {
       return {
         currentCommitIndex: state.currentCommitIndex - 1,
@@ -60,8 +56,6 @@ class StudentView extends React.Component<Props, State> {
   }
 
   public showNewerCommit() {
-    console.log("show next commit");
-
     this.setState((state) => {
       return {
         currentCommitIndex: state.currentCommitIndex + 1,
@@ -125,7 +119,10 @@ class StudentView extends React.Component<Props, State> {
                   <ConsolePane />
                 </Col>
                 <Col md={6} className="p-0">
-                  <PreviewPane />
+                  <PreviewPane
+                    studentID={this.state.studentID}
+                    currentCommitIndex={this.state.currentCommitIndex}
+                  />
                 </Col>
               </Row>
             </Container>

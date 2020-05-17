@@ -109,6 +109,7 @@ class CodePane extends React.Component<Props, State> {
           <SyntaxHighlighter
             className="m-3"
             language="html"
+            showLineNumbers={true}
             style={this.state.syntaxStyle}
           >
             {this.state.files[i]["codeString"]}

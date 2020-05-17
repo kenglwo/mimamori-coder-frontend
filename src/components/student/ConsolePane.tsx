@@ -17,12 +17,18 @@ class ConsolePane extends React.Component<Props, State> {
 
     this.state = {
       is_ok: false,
-      error_messages: ["error message", "error message", "error message"],
-      warning_messages: ["warning message"],
+      error_messages: [],
+      warning_messages: [],
     };
+
+    this.loadConsoleMessages = this.loadConsoleMessages.bind(this);
   }
 
-  public componentDidMount() {}
+  public loadConsoleMessages() {}
+
+  public componentDidMount() {
+    this.loadConsoleMessages();
+  }
 
   public render() {
     const errorMessages = this.state.error_messages.map((item, i) => (
@@ -39,7 +45,9 @@ class ConsolePane extends React.Component<Props, State> {
 
     return (
       <div>
-        <div className="bg-info p-1 text-white font-weight-bold">Console</div>
+        <div className="bg-info p-1 text-white font-weight-bold">
+          Console Pane
+        </div>
         <div className="p-3" id="console">
           {this.state.is_ok && (
             <div className="alert alert-primary" role="alert">

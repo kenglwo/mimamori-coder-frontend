@@ -13,6 +13,7 @@ interface Props {
   commitTotalNum: number;
 }
 interface State {
+  currentCommitIndex: number;
   commitLogs: CommitLogInfo[];
 }
 
@@ -21,6 +22,7 @@ class CommitLog extends React.Component<Props, State> {
     super(props);
 
     this.state = {
+      currentCommitIndex: this.props.currentCommitIndex,
       commitLogs: [],
     };
 
@@ -29,6 +31,12 @@ class CommitLog extends React.Component<Props, State> {
 
   public componentDidMount() {
     this.loadCommitLog();
+  }
+
+  public componentDidUpdate(prevProps: Props) {
+    if (this.props.currentCommitIndex !== prevProps.currentCommitIndex) {
+      this.setState({ currentCommitIndex: this.props.currentCommitIndex });
+    }
   }
 
   public loadCommitLog() {
@@ -53,20 +61,35 @@ class CommitLog extends React.Component<Props, State> {
   public render() {
     const commitLogs = this.state.commitLogs.map((item, i) => {
       if (item.commitFile.length > 1) {
-        const commitTime: string = item.commitTime;
         return item.commitFile.map((file, j) => {
           if (j === 0) {
             return (
-              <tr key={`${i}-${j}`}>
+              <tr
+                key={`${i}-${j}`}
+                className={
+                  Number(this.state.currentCommitIndex) ===
+                  this.props.commitTotalNum - i
+                    ? "bg-info text-dark"
+                    : ""
+                }
+              >
                 <td>{this.props.commitTotalNum - i}</td>
-                <td>{commitTime}</td>
+                <td>{item.commitTime}</td>
                 <td>{file.fileName}</td>
                 <td>{file.fileStatus}</td>
               </tr>
             );
           } else {
             return (
-              <tr key={`${i}-${j}`}>
+              <tr
+                key={`${i}-${j}`}
+                className={
+                  Number(this.state.currentCommitIndex) ===
+                  this.props.commitTotalNum - i
+                    ? "bg-info text-dark"
+                    : ""
+                }
+              >
                 <td></td>
                 <td></td>
                 <td>{file.fileName}</td>
@@ -77,7 +100,15 @@ class CommitLog extends React.Component<Props, State> {
         });
       } else {
         return (
-          <tr key={i}>
+          <tr
+            key={i}
+            className={
+              Number(this.state.currentCommitIndex) ===
+              this.props.commitTotalNum - i
+                ? "bg-info text-dark"
+                : ""
+            }
+          >
             <td>{this.props.commitTotalNum - i}</td>
             <td>{item.commitTime}</td>
             <td>{item.commitFile[0].fileName}</td>
@@ -85,20 +116,6 @@ class CommitLog extends React.Component<Props, State> {
           </tr>
         );
       }
-
-      // this.props.currentCommitIndex === this.props.commitTotalNum - i ? (
-      //   <tr key={i} className="bg-info text-dark">
-      //     <td>{this.props.commitTotalNum - i}</td>
-      //     <td>{item.file_name}</td>
-      //     <td>{item.updated_time}</td>
-      //   </tr>
-      // ) : (
-      //   <tr key={i}>
-      //     <td>{this.props.commitTotalNum - i}</td>
-      //     <td>{item.file_name}</td>
-      //     <td>{item.updated_time}</td>
-      //   </tr>
-      // )
     });
 
     return (

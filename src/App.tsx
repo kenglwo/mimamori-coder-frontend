@@ -33,10 +33,7 @@ class App extends React.Component<Props, State> {
                 <Switch>
                   <Route exact={true} path={"/"} component={TopPage} />
                   <Route path={"/overview"} component={Overview} />
-                  <Route
-                    path={"/student/:studentID/:studentName"}
-                    component={StudentView}
-                  />
+                  <Route path={"/student/:studentID"} component={StudentView} />
                 </Switch>
               </BrowserRouter>
             </Col>

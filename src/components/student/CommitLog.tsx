@@ -40,7 +40,7 @@ class CommitLog extends React.Component<Props, State> {
   }
 
   public loadCommitLog() {
-    const url = `http://localhost:3001/api/student_view/commit_log?student_id=${this.props.studentID}`;
+    const url = `${process.env.REACT_APP_API_URL}/api/student_view/commit_log?student_id=${this.props.studentID}`;
 
     fetch(url, { mode: "cors" })
       .then((res) => res.json())

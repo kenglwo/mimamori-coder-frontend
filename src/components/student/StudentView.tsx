@@ -62,7 +62,7 @@ class StudentView extends React.Component<Props, State> {
   }
 
   public loadStudentItem() {
-    const url = `http://localhost:3001/api/student_view?student_id=${this.state.studentID}`;
+    const url = `${process.env.REACT_APP_API_URL}/api/student_view?student_id=${this.state.studentID}`;
 
     fetch(url, { mode: "cors" })
       .then((res) => res.json())

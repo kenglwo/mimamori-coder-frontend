@@ -30,7 +30,7 @@ class PreviewPane extends React.Component<Props, State> {
   }
 
   public loadCodeStrings(currentCommitIndex: number) {
-    const url = `http://localhost:3001/api/student_view/code_string?student_id=${this.state.studentID}&current_commit_index=${currentCommitIndex}`;
+    const url = `${process.env.REACT_APP_API_URL}/api/student_view/code_string?student_id=${this.state.studentID}&current_commit_index=${currentCommitIndex}`;
 
     fetch(url, { mode: "cors" })
       .then((res) => res.json())

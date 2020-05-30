@@ -31,7 +31,9 @@ class StudentsTable extends React.Component<Props, State> {
   };
 
   public loadAllStudentTableItems() {
-    const url = "http://localhost:3001/api/students_table_items";
+    // const url = "http://localhost:3001/api/students_table_items";
+    const url = `${process.env.REACT_APP_API_URL}/api/students_table_items`;
+    console.log(url);
     fetch(url, { mode: "cors" })
       .then((res) => res.json())
       .then(

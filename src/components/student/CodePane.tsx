@@ -55,7 +55,8 @@ class CodePane extends React.Component<Props, State> {
 
   public loadCodeInfo(currentCommitIndex: number) {
     if (currentCommitIndex > 0) {
-      const url = ` http://localhost:3001/api/student_view/code?student_id=${this.state.studentID}&current_commit_index=${currentCommitIndex}`;
+      // const url = `http://localhost:3001/api/student_view/code?student_id=${this.state.studentID}&current_commit_index=${currentCommitIndex}`;
+      const url = `${process.env.REACT_APP_API_URL}/api/student_view/code?student_id=${this.state.studentID}&current_commit_index=${currentCommitIndex}`;
 
       fetch(url, { mode: "cors" })
         .then((res) => res.json())

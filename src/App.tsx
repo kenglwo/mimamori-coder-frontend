@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import Header from "./components/common/Header";
-import Sidebar from "./components/common/Sidebar";
+import Sidebar from "./components/common/SideBar";
 
 import TopPage from "./components/top/TopPage";
 import Overview from "./components/overview/Overview";

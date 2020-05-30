@@ -26,13 +26,11 @@ export type FileInfo = {
 
 export type StudentTableItem = {
   studentID: string;
-  studentName: string;
   workingFiles: FileInfo[];
 };
 
 export type StudentViewItem = {
   studentID: string;
-  studentName: string;
   commitTotalNum: number;
   currentCommitIndex: number;
 };

@@ -7,8 +7,7 @@ import { DisplayOption, StudentTableItem } from "../models/Types";
 
 import "../../stylesheets/StudentsTable.scss";
 
-interface Props
-  extends RouteComponentProps<{ studentID: string; studentName: string }> {
+interface Props extends RouteComponentProps<{ studentID: string }> {
   displayOption: DisplayOption;
 }
 interface State {
@@ -27,12 +26,8 @@ class StudentsTable extends React.Component<Props, State> {
     this.loadAllStudentTableItems = this.loadAllStudentTableItems.bind(this);
   }
 
-  onTableRowCicked = (
-    studentID: string,
-    studentName: string,
-    e: React.MouseEvent<HTMLElement>
-  ) => {
-    this.props.history.push(`/student/${studentID}/${studentName}`);
+  onTableRowCicked = (studentID: string, e: React.MouseEvent<HTMLElement>) => {
+    this.props.history.push(`/student/${studentID}`);
   };
 
   public loadAllStudentTableItems() {
@@ -77,16 +72,11 @@ class StudentsTable extends React.Component<Props, State> {
           return (
             <tr
               key={`${i}-${fileIndex}`}
-              onClick={this.onTableRowCicked.bind(
-                this,
-                item.studentID,
-                item.studentName
-              )}
+              onClick={this.onTableRowCicked.bind(this, item.studentID)}
               className={checkCodeStatus(file.codeStatus)}
             >
               <td>{i + 1}</td>
               <td>{item.studentID}</td>
-              <td>{item.studentName}</td>
               <td>{file.commitIndex}</td>
               <td>{file.updatedTime}</td>
               <td>{file.fileName}</td>
@@ -98,14 +88,9 @@ class StudentsTable extends React.Component<Props, State> {
           return (
             <tr
               key={`${i}-${fileIndex}`}
-              onClick={this.onTableRowCicked.bind(
-                this,
-                item.studentID,
-                item.studentName
-              )}
+              onClick={this.onTableRowCicked.bind(this, item.studentID)}
               className={checkCodeStatus(file.codeStatus)}
             >
-              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -125,7 +110,6 @@ class StudentsTable extends React.Component<Props, State> {
           <tr>
             <th>No.</th>
             <th>Student ID</th>
-            <th>Student Name</th>
             <th>Commits</th>
             <th>Last Updated Time</th>
             <th>Working File Name</th>

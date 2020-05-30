@@ -3,7 +3,6 @@ import Table from "react-bootstrap/Table";
 
 interface Props {
   studentID: string;
-  studentName: string;
 }
 interface State {}
 
@@ -19,10 +18,6 @@ class StudentInfo extends React.Component<Props, State> {
             <tr>
               <td>Student ID</td>
               <td>{this.props.studentID}</td>
-            </tr>
-            <tr>
-              <td>Student Name</td>
-              <td>{this.props.studentName}</td>
             </tr>
           </tbody>
         </Table>

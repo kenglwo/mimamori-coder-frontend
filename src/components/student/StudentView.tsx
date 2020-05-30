@@ -27,8 +27,7 @@ interface Commit {
 
 interface CommitInfo {}
 
-interface Props
-  extends RouteComponentProps<{ studentID: string; studentName: string }> {}
+interface Props extends RouteComponentProps<{ studentID: string }> {}
 interface State extends StudentViewItem {}
 
 class StudentView extends React.Component<Props, State> {
@@ -37,7 +36,6 @@ class StudentView extends React.Component<Props, State> {
 
     this.state = {
       studentID: this.props.match.params.studentID,
-      studentName: this.props.match.params.studentName,
       commitTotalNum: 0,
       currentCommitIndex: 0,
     };
@@ -94,10 +92,7 @@ class StudentView extends React.Component<Props, State> {
       <Container fluid>
         <Row>
           <Col md={3} className="p-0">
-            <StudentInfo
-              studentID={this.state.studentID}
-              studentName={this.state.studentName}
-            />
+            <StudentInfo studentID={this.state.studentID} />
             <FileListPane studentID={this.state.studentID} />
             <CommitLog
               studentID={this.state.studentID}

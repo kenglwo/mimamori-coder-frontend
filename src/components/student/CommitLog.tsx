@@ -1,10 +1,5 @@
 import React from "react";
-// import { RouteComponentProps } from "react-router-dom";
-// import Container from "react-bootstrap/Container";
-// import Col from "react-bootstrap/Col";
-// import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
-
 import { CommitLogInfo } from "../models/Types";
 
 interface Props {
@@ -50,10 +45,6 @@ class CommitLog extends React.Component<Props, State> {
         },
         (error) => {
           console.log("Error: loadAllStudentTableItems");
-          // this.setState({
-          //   // error,
-          //   isLoaded: true
-          /// });
         }
       );
   }
@@ -111,8 +102,16 @@ class CommitLog extends React.Component<Props, State> {
           >
             <td>{this.props.commitTotalNum - i}</td>
             <td>{item.commitTime}</td>
-            <td>{item.commitFile[0].fileName}</td>
-            <td>{item.commitFile[0].fileStatus}</td>
+            <td>
+              {item.commitFile.length !== 0
+                ? item.commitFile[0].fileName
+                : "unknown"}
+            </td>
+            <td>
+              {item.commitFile.length !== 0
+                ? item.commitFile[0].fileStatus
+                : "unknown"}
+            </td>
           </tr>
         );
       }

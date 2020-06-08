@@ -33,26 +33,22 @@ class StudentsTable extends React.Component<Props, State> {
   public loadAllStudentTableItems() {
     // const url = "http://localhost:3001/api/students_table_items";
     const url = `${process.env.REACT_APP_API_URL}/api/students_table_items`;
-    console.log(url);
     fetch(url, { mode: "cors" })
       .then((res) => res.json())
       .then(
         (jsonData) => {
           this.setState({ studentsTableItems: jsonData });
-          console.log(this.state.studentsTableItems);
         },
         (error) => {
           console.log("Error: loadAllStudentTableItems");
-          // this.setState({
-          //   // error,
-          //   isLoaded: true
-          /// });
         }
       );
   }
 
   public componentDidMount() {
-    this.loadAllStudentTableItems();
+    if (this.state.studentsTableItems.length === 0) {
+      this.loadAllStudentTableItems();
+    }
   }
 
   public render() {

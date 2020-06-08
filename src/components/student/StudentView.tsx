@@ -75,10 +75,6 @@ class StudentView extends React.Component<Props, State> {
         },
         (error) => {
           console.log("Error: loadAllStudentTableItems");
-          // this.setState({
-          //   // error,
-          //   isLoaded: true
-          /// });
         }
       );
   }

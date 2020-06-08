@@ -1,8 +1,4 @@
 import React from "react";
-// import Button from "react-bootstrap/Button";
-// import Container from "react-bootstrap/Container";
-// import Col from "react-bootstrap/Col";
-// import Row from "react-bootstrap/Row";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
   darcula,
@@ -16,7 +12,8 @@ import {
   // solarizedlight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-import "../../stylesheets/StudentView.scss";
+// import "../../stylesheets/StudentView.scss";
+import "../../stylesheets/CodePane.scss";
 
 interface Props {
   studentID: string;
@@ -55,23 +52,19 @@ class CodePane extends React.Component<Props, State> {
 
   public loadCodeInfo(currentCommitIndex: number) {
     if (currentCommitIndex > 0) {
-      // const url = `http://localhost:3001/api/student_view/code?student_id=${this.state.studentID}&current_commit_index=${currentCommitIndex}`;
       const url = `${process.env.REACT_APP_API_URL}/api/student_view/code?student_id=${this.state.studentID}&current_commit_index=${currentCommitIndex}`;
 
       fetch(url, { mode: "cors" })
         .then((res) => res.json())
         .then(
           (jsonData) => {
+            console.log(jsonData);
             this.setState({
               files: jsonData,
             });
           },
           (error) => {
             console.log("Error: loadAllStudentTableItems");
-            // this.setState({
-            //   // error,
-            //   isLoaded: true
-            /// });
           }
         );
     }
@@ -89,7 +82,7 @@ class CodePane extends React.Component<Props, State> {
       return <div></div>;
     } else {
       const codePanes = this.state.files.map((file, i) => (
-        <div key={i}>
+        <div>
           <div
             className="d-flex justify-content-start pt-4 pl-2"
             id="filename_tag"
@@ -118,7 +111,7 @@ class CodePane extends React.Component<Props, State> {
         </div>
       ));
       return (
-        <div>
+        <div id="code_pane_wrapper">
           <div className="bg-info p-1 text-white font-weight-bold">
             Code Pane
           </div>

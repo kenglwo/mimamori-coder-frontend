@@ -1,8 +1,5 @@
 import React from "react";
-// import { RouteComponentProps } from "react-router-dom";
-// import Container from "react-bootstrap/Container";
-// import Col from "react-bootstrap/Col";
-// import Row from "react-bootstrap/Row";
+import "../../stylesheets/PreviewPane.scss";
 
 interface Props {
   studentID: string;
@@ -73,7 +70,7 @@ class PreviewPane extends React.Component<Props, State> {
     ));
 
     return (
-      <div>
+      <div id="preview_pane_wrapper">
         <div className="bg-success p-1 text-white font-weight-bold">
           Preview Pane
         </div>

@@ -12,7 +12,6 @@ import {
   // solarizedlight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-// import "../../stylesheets/StudentView.scss";
 import "../../stylesheets/CodePane.scss";
 
 interface Props {
@@ -81,35 +80,116 @@ class CodePane extends React.Component<Props, State> {
     if (this.state.files.length === 0) {
       return <div></div>;
     } else {
-      const codePanes = this.state.files.map((file, i) => (
-        <div>
-          <div
-            className="d-flex justify-content-start pt-4 pl-2"
-            id="filename_tag"
-          >
-            <span className="badge badge-secondary">
-              {this.state.files[i]["fileName"]}
-            </span>
-            {this.state.files[i]["codeStatus"] === "ok" && (
-              <span className="badge badge-primary ml-3">OK</span>
-            )}
-            {this.state.files[i]["codeStatus"] === "error" && (
-              <span className="badge badge-danger ml-3">Error</span>
-            )}
-            {this.state.files[i]["codeStatus"] === "warning" && (
-              <span className="badge badge-warning ml-3">Warning</span>
-            )}
-          </div>
-          <SyntaxHighlighter
-            className="m-3"
-            language="html"
-            showLineNumbers={true}
-            style={this.state.syntaxStyle}
-          >
-            {this.state.files[i]["codeString"]}
-          </SyntaxHighlighter>
-        </div>
-      ));
+      const codePanes = this.state.files.map((file, i) => {
+        if (this.state.files[i]["codeStatus"] !== null) {
+          return (
+            <div>
+              <div
+                className="d-flex justify-content-start pt-4 pl-2"
+                id="filename_tag"
+              >
+                <span className="badge badge-secondary">
+                  {this.state.files[i]["fileName"]}
+                </span>
+                {this.state.files[i]["codeStatus"] === "ok" && (
+                  <span className="badge badge-primary ml-3">OK</span>
+                )}
+                {this.state.files[i]["codeStatus"] === "error" && (
+                  <span className="badge badge-danger ml-3">Error</span>
+                )}
+                {this.state.files[i]["codeStatus"] === "warning" && (
+                  <span className="badge badge-warning ml-3">Warning</span>
+                )}
+              </div>
+              <div className="mb-4">
+                {this.state.currentCommitIndex > 1 && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={this.props.showOlderCommit}
+                  >
+                    {"<"}
+                  </button>
+                )}
+                <span className="badge badge-secondary ml-4 mr-4">
+                  {this.state.files[0]["commitTime"]}
+                </span>
+                {this.state.currentCommitIndex < this.props.commitTotalNum && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={this.props.showNewerCommit}
+                  >
+                    {">"}
+                  </button>
+                )}
+              </div>
+              <SyntaxHighlighter
+                className="m-3"
+                language="html"
+                showLineNumbers={true}
+                style={this.state.syntaxStyle}
+              >
+                {this.state.files[i]["codeString"]}
+              </SyntaxHighlighter>
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              <div
+                className="d-flex justify-content-start pt-4 pl-2"
+                id="filename_tag"
+              >
+                <span className="badge badge-secondary">
+                  {this.state.files[i]["fileName"]}
+                </span>
+                {this.state.files[i]["codeStatus"] === "ok" && (
+                  <span className="badge badge-primary ml-3">OK</span>
+                )}
+                {this.state.files[i]["codeStatus"] === "error" && (
+                  <span className="badge badge-danger ml-3">Error</span>
+                )}
+                {this.state.files[i]["codeStatus"] === "warning" && (
+                  <span className="badge badge-warning ml-3">Warning</span>
+                )}
+              </div>
+              <div className="mb-4">
+                {this.state.currentCommitIndex > 1 && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={this.props.showOlderCommit}
+                  >
+                    {"<"}
+                  </button>
+                )}
+                <span className="badge badge-secondary ml-4 mr-4">
+                  {this.state.files[0]["commitTime"]}
+                </span>
+                {this.state.currentCommitIndex < this.props.commitTotalNum && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={this.props.showNewerCommit}
+                  >
+                    {">"}
+                  </button>
+                )}
+              </div>
+              <SyntaxHighlighter
+                className="m-3"
+                language="html"
+                showLineNumbers={true}
+                style={this.state.syntaxStyle}
+              >
+                {"file deleted"}
+              </SyntaxHighlighter>
+            </div>
+          );
+        }
+      });
+
       return (
         <div id="code_pane_wrapper">
           <div className="bg-info p-1 text-white font-weight-bold">

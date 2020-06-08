@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import Header from "./components/common/Header";
-import Sidebar from "./components/common/SideBar";
+import SideBar from "./components/common/SideBar";
 
 import TopPage from "./components/top/TopPage";
 import Overview from "./components/overview/Overview";
@@ -25,10 +25,10 @@ class App extends React.Component<Props, State> {
             <Header />
           </Row>
           <Row>
-            <Col sm={2} className="p-0">
-              <Sidebar />
+            <Col sm={1} className="p-0">
+              <SideBar />
             </Col>
-            <Col sm={10} className="p-0">
+            <Col sm={11} className="p-0">
               <BrowserRouter>
                 <Switch>
                   <Route exact={true} path={"/"} component={TopPage} />

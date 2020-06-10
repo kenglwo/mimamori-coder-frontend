@@ -57,7 +57,6 @@ class CodePane extends React.Component<Props, State> {
         .then((res) => res.json())
         .then(
           (jsonData) => {
-            console.log(jsonData);
             this.setState({
               files: jsonData,
             });
@@ -83,7 +82,7 @@ class CodePane extends React.Component<Props, State> {
       const codePanes = this.state.files.map((file, i) => {
         if (this.state.files[i]["codeStatus"] !== null) {
           return (
-            <div>
+            <div key={i}>
               <div
                 className="d-flex justify-content-start pt-4 pl-2"
                 id="filename_tag"
@@ -136,7 +135,7 @@ class CodePane extends React.Component<Props, State> {
           );
         } else {
           return (
-            <div>
+            <div key={i}>
               <div
                 className="d-flex justify-content-start pt-4 pl-2"
                 id="filename_tag"

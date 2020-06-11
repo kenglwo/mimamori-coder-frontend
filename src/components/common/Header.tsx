@@ -25,9 +25,23 @@ class Header extends React.Component<Props, State> {
               alt="React"
             />
           </Navbar.Brand>
-          <Nav className="mr-auto">
-            <Nav.Link id="home" href="/">
+          <Nav className="mr-0">
+            <Nav.Link className="font-weight-bold" id="home" href="/">
               Home
+            </Nav.Link>
+            <Nav.Link
+              className="font-weight-bold"
+              id="overview"
+              href="/overview"
+            >
+              Overview
+            </Nav.Link>
+            <Nav.Link
+              className="font-weight-bold mr-5"
+              id="statistics"
+              href="#"
+            >
+              Statistics
             </Nav.Link>
             <Form inline>
               <Form.Group className="mr-3" controlId="exampleForm.SelectCustom">
@@ -39,7 +53,7 @@ class Header extends React.Component<Props, State> {
               </Form.Group>
               <FormControl
                 type="text"
-                placeholder="Search"
+                placeholder="Search Value"
                 className="mr-sm-2"
               />
               <Button variant="outline-info">Search</Button>

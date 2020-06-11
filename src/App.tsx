@@ -3,10 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
 import Header from "./components/common/Header";
-import SideBar from "./components/common/SideBar";
-
 import TopPage from "./components/top/TopPage";
 import Overview from "./components/overview/Overview";
 import StudentView from "./components/student/StudentView";
@@ -20,15 +17,12 @@ class App extends React.Component<Props, State> {
   public render() {
     return (
       <div className="App">
-        <Container className="p-0" fluid>
-          <Row>
+        <Container fluid>
+          <Row className="mb-3">
             <Header />
           </Row>
           <Row>
-            <Col sm={1} className="p-0">
-              <SideBar />
-            </Col>
-            <Col sm={11} className="p-0">
+            <Col>
               <BrowserRouter>
                 <Switch>
                   <Route exact={true} path={"/"} component={TopPage} />

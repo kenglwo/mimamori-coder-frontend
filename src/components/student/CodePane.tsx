@@ -195,7 +195,7 @@ class CodePane extends React.Component<Props, State> {
             Code Pane
           </div>
           {codePanes}
-          <div className="mb-4">
+          <div className="mt-5 mb-4">
             {this.state.currentCommitIndex > 1 && (
               <button
                 type="button"

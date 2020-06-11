@@ -87,7 +87,7 @@ class StudentView extends React.Component<Props, State> {
     return (
       <Container fluid>
         <Row>
-          <Col md={3} className="p-0">
+          <Col md={3} className="pr-0">
             <StudentInfo studentID={this.state.studentID} />
             <FileListPane studentID={this.state.studentID} />
             <CommitLog
@@ -96,7 +96,7 @@ class StudentView extends React.Component<Props, State> {
               commitTotalNum={this.state.commitTotalNum}
             />
           </Col>
-          <Col md={9} className="pl-0 pr-4">
+          <Col md={9} className="pl-0 pr-1">
             <Container fluid>
               <Row>
                 <Col md={6} className="p-0">

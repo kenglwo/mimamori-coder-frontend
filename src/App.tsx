@@ -18,7 +18,7 @@ class App extends React.Component<Props, State> {
     return (
       <div className="App">
         <Container fluid>
-          <Row className="mb-3">
+          <Row className="mt-3 mb-3">
             <Header />
           </Row>
           <Row>

@@ -1,3 +1,4 @@
+import path from "path";
 import React from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
@@ -81,6 +82,11 @@ class CodePane extends React.Component<Props, State> {
       return <div></div>;
     } else {
       const codePanes = this.state.files.map((file, i) => {
+        const extName = path.extname(this.state.files[i]["fileName"]).slice(1);
+
+				// TODO: set var below properly
+        const codeDiffWithBgColor = this.state.files[i]["codeDiff"];
+
         if (this.state.files[i]["codeStatus"] !== null) {
           return (
             <div key={i}>
@@ -126,15 +132,15 @@ class CodePane extends React.Component<Props, State> {
               </div>
               <SyntaxHighlighter
                 className="m-3"
-                language="html"
+                language={extName}
                 showLineNumbers={false}
                 style={this.state.syntaxStyle}
               >
-                {this.state.files[i]["codeDiff"]}
+                {codeDiffWithBgColor}
               </SyntaxHighlighter>
               <SyntaxHighlighter
                 className="m-3"
-                language="html"
+                language={extName}
                 showLineNumbers={true}
                 style={this.state.syntaxStyle}
               >

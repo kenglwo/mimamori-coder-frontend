@@ -40,6 +40,7 @@ class TopPage extends React.Component<Props, State> {
       <Container fluid>
         <Row>
           <Toolbar
+            displayOrder={this.state.displayOrder}
             onSelectDisplayOrder={this.changeDisplayOrder}
             onChangeDisplayStyle={this.changeDisplayStyle}
           />

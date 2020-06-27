@@ -41,12 +41,16 @@ class Toolbal extends React.Component<Props, State> {
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item eventKey="studentID">Student ID</Dropdown.Item>
-            <Dropdown.Item eventKey="studentName">Student Name</Dropdown.Item>
-            <Dropdown.Item eventKey="lastUpdatedTime">
-              Last Updated Time
+            <Dropdown.Item eventKey="commits_asc">Commits (asc)</Dropdown.Item>
+            <Dropdown.Item eventKey="commits_desc">
+              Commits (desc)
             </Dropdown.Item>
-            <Dropdown.Item eventKey="errors">errors</Dropdown.Item>
-            <Dropdown.Item eventKey="warnings">warnings</Dropdown.Item>
+            <Dropdown.Item eventKey="updated_time_asc">
+              Updated Time (asc)
+            </Dropdown.Item>
+            <Dropdown.Item eventKey="updated_time_desc">
+              Updated Time (desc)
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>

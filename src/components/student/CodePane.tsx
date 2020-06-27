@@ -26,6 +26,7 @@ type CodeInfo = {
   fileName: string;
   commitTime: string;
   codeString: string;
+  codeDiff: string;
   codeStatus: string;
 };
 interface State {
@@ -56,9 +57,9 @@ class CodePane extends React.Component<Props, State> {
       fetch(url, { mode: "cors" })
         .then((res) => res.json())
         .then(
-          (jsonData) => {
+          (result) => {
             this.setState({
-              files: jsonData,
+              files: result,
             });
           },
           (error) => {
@@ -123,6 +124,14 @@ class CodePane extends React.Component<Props, State> {
                   </button>
                 )}
               </div>
+              <SyntaxHighlighter
+                className="m-3"
+                language="html"
+                showLineNumbers={false}
+                style={this.state.syntaxStyle}
+              >
+                {this.state.files[i]["codeDiff"]}
+              </SyntaxHighlighter>
               <SyntaxHighlighter
                 className="m-3"
                 language="html"

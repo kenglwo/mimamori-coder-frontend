@@ -8,7 +8,8 @@ import { DisplayOption } from "../models/Types";
 
 interface Props {}
 interface State {
-  displayOption: DisplayOption;
+  displayStyle: string;
+  displayOrder: string;
 }
 
 class TopPage extends React.Component<Props, State> {
@@ -16,10 +17,8 @@ class TopPage extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      displayOption: {
-        style: "table",
-        order: "studentID",
-      },
+      displayStyle: "table",
+      displayOrder: "studentID",
     };
 
     this.changeDisplayOrder = this.changeDisplayOrder.bind(this);
@@ -28,26 +27,12 @@ class TopPage extends React.Component<Props, State> {
 
   public changeDisplayOrder(eventKey: string) {
     let order: DisplayOption["order"] = eventKey as DisplayOption["order"];
-    this.setState((state) => {
-      return {
-        displayOption: {
-          style: state.displayOption.style,
-          order: order,
-        },
-      };
-    });
+    this.setState({ displayOrder: order });
   }
 
   public changeDisplayStyle(value: string) {
     let style: DisplayOption["style"] = value as DisplayOption["style"];
-    this.setState((state) => {
-      return {
-        displayOption: {
-          style: style,
-          order: state.displayOption.order,
-        },
-      };
-    });
+    this.setState({ displayStyle: style });
   }
 
   public render() {
@@ -56,11 +41,14 @@ class TopPage extends React.Component<Props, State> {
         <Row>
           <Toolbar
             onSelectDisplayOrder={this.changeDisplayOrder}
-            onChangeDisplayStyle={this.changeDisplayOrder}
+            onChangeDisplayStyle={this.changeDisplayStyle}
           />
         </Row>
         <Row className="mr-3">
-          <StudentsTable displayOption={this.state.displayOption} />
+          <StudentsTable
+            displayStyle={this.state.displayStyle}
+            displayOrder={this.state.displayOrder}
+          />
         </Row>
       </Container>
     );

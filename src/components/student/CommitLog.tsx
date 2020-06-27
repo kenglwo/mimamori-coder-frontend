@@ -6,6 +6,7 @@ interface Props {
   studentID: string;
   currentCommitIndex: number;
   commitTotalNum: number;
+  setCurrentCommitIndex: (commitIndex: number) => void;
 }
 interface State {
   currentCommitIndex: number;
@@ -63,6 +64,7 @@ class CommitLog extends React.Component<Props, State> {
                     ? "bg-info text-dark"
                     : ""
                 }
+                onClick={this.props.setCurrentCommitIndex.bind(this, i)}
               >
                 <td>{this.props.commitTotalNum - i}</td>
                 <td>{item.commitTime}</td>
@@ -80,6 +82,7 @@ class CommitLog extends React.Component<Props, State> {
                     ? "bg-info text-dark"
                     : ""
                 }
+                onClick={this.props.setCurrentCommitIndex.bind(this, i)}
               >
                 <td></td>
                 <td></td>
@@ -99,6 +102,7 @@ class CommitLog extends React.Component<Props, State> {
                 ? "bg-info text-dark"
                 : ""
             }
+            onClick={this.props.setCurrentCommitIndex.bind(this, i)}
           >
             <td>{this.props.commitTotalNum - i}</td>
             <td>{item.commitTime}</td>

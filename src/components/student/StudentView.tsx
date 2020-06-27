@@ -42,6 +42,7 @@ class StudentView extends React.Component<Props, State> {
 
     this.showOlderCommit = this.showOlderCommit.bind(this);
     this.showNewerCommit = this.showNewerCommit.bind(this);
+    this.setCurrentCommitIndex = this.setCurrentCommitIndex.bind(this);
     this.loadStudentItem = this.loadStudentItem.bind(this);
   }
 
@@ -59,6 +60,11 @@ class StudentView extends React.Component<Props, State> {
         currentCommitIndex: state.currentCommitIndex + 1,
       };
     });
+  }
+
+  public setCurrentCommitIndex(commitIndex: number) {
+    const newCurrentCommitIndex = this.state.commitTotalNum - commitIndex;
+    this.setState({ currentCommitIndex: newCurrentCommitIndex });
   }
 
   public loadStudentItem() {
@@ -94,6 +100,7 @@ class StudentView extends React.Component<Props, State> {
               studentID={this.state.studentID}
               currentCommitIndex={this.state.currentCommitIndex}
               commitTotalNum={this.state.commitTotalNum}
+              setCurrentCommitIndex={this.setCurrentCommitIndex}
             />
           </Col>
           <Col md={9} className="pl-0 pr-1">

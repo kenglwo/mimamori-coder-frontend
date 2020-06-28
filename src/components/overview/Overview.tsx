@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
@@ -6,19 +7,27 @@ import Toolbar from "./Toolbar";
 import StudentsTable from "./StudentsTable";
 import { DisplayOption } from "../models/Types";
 
-interface Props {}
+interface Props
+  extends RouteComponentProps<{
+    headerSelectorValue: string;
+    headerInputValue: string;
+  }> {}
 interface State {
   displayStyle: string;
   displayOrder: string;
+  headerSelectorValue: string;
+  headerInputValue: string;
 }
 
-class TopPage extends React.Component<Props, State> {
+class Overview extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
     this.state = {
       displayStyle: "table",
       displayOrder: "studentID",
+      headerSelectorValue: this.props.match.params.headerSelectorValue,
+      headerInputValue: this.props.match.params.headerInputValue,
     };
 
     this.changeDisplayOrder = this.changeDisplayOrder.bind(this);
@@ -35,6 +44,20 @@ class TopPage extends React.Component<Props, State> {
     this.setState({ displayStyle: style });
   }
 
+  public componentDidUpdate(prevProps: Props) {
+    if (
+      this.props.match.params.headerSelectorValue !==
+        prevProps.match.params.headerSelectorValue ||
+      this.props.match.params.headerInputValue !==
+        prevProps.match.params.headerInputValue
+    ) {
+      this.setState({
+        headerSelectorValue: this.props.match.params.headerSelectorValue,
+        headerInputValue: this.props.match.params.headerInputValue,
+      });
+    }
+  }
+
   public render() {
     return (
       <Container fluid>
@@ -49,6 +72,8 @@ class TopPage extends React.Component<Props, State> {
           <StudentsTable
             displayStyle={this.state.displayStyle}
             displayOrder={this.state.displayOrder}
+            headerSelectorValue={this.state.headerSelectorValue}
+            headerInputValue={this.state.headerInputValue}
           />
         </Row>
       </Container>
@@ -56,4 +81,4 @@ class TopPage extends React.Component<Props, State> {
   }
 }
 
-export default TopPage;
+export default withRouter(Overview);

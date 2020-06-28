@@ -10,6 +10,8 @@ import "../../stylesheets/StudentsTable.scss";
 interface Props extends RouteComponentProps<{ studentID: string }> {
   displayStyle: string;
   displayOrder: string;
+  headerSelectorValue: string;
+  headerInputValue: string;
 }
 interface State {
   studentsTableItems: StudentTableItem[];
@@ -122,10 +124,34 @@ class StudentsTable extends React.Component<Props, State> {
     return comparison;
   }
 
-  public render() {
+  public filterTableItems(): StudentTableItem[] {
     let studentsTableItems = this.state.studentsTableItems.filter(
       (item) => item.workingFiles[0].fileName !== "unknown"
     );
+    studentsTableItems =
+      this.props.headerSelectorValue === "studentID" &&
+      this.props.headerInputValue !== "all"
+        ? studentsTableItems.filter(
+            (item) => item.studentID === this.props.headerInputValue
+          )
+        : studentsTableItems;
+
+    studentsTableItems =
+      this.props.headerSelectorValue === "fileName" &&
+      this.props.headerInputValue !== "all"
+        ? studentsTableItems.filter((item) => {
+            return item.workingFiles.some((file) =>
+              file.fileName.includes(this.props.headerInputValue)
+            );
+          })
+        : studentsTableItems;
+
+    return studentsTableItems;
+  }
+
+  public render() {
+    let studentsTableItems = this.filterTableItems();
+
     studentsTableItems =
       this.state.displayOrder === "studentID"
         ? studentsTableItems.sort(this.orderByStudentID)

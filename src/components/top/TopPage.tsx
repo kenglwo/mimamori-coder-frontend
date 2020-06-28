@@ -8,7 +8,7 @@ interface State {}
 
 class TopPage extends React.Component<Props, State> {
   public render() {
-    return <div className="text-white">Top Page</div>;
+return <div className="text-white">Home Page</div>;
   }
 }
 

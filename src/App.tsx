@@ -14,24 +14,31 @@ interface Props {}
 interface State {}
 
 class App extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+  }
+
   public render() {
     return (
       <div className="App">
         <Container fluid>
-          <Row className="mt-3 mb-3">
-            <Header />
-          </Row>
-          <Row>
-            <Col>
-              <BrowserRouter>
+          <BrowserRouter>
+            <Row className="mt-3 mb-3">
+              <Header />
+            </Row>
+            <Row>
+              <Col>
                 <Switch>
                   <Route exact={true} path={"/"} component={TopPage} />
-                  <Route path={"/overview"} component={Overview} />
+                  <Route
+                    path={"/overview/:headerSelectorValue/:headerInputValue"}
+                    component={Overview}
+                  />
                   <Route path={"/student/:studentID"} component={StudentView} />
                 </Switch>
-              </BrowserRouter>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+          </BrowserRouter>
         </Container>
       </div>
     );

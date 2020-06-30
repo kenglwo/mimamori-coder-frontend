@@ -12,11 +12,13 @@ interface Props extends RouteComponentProps<{ studentID: string }> {
   displayOrder: string;
   headerSelectorValue: string;
   headerInputValue: string;
+  showUnknownStudents: boolean;
 }
 interface State {
   studentsTableItems: StudentTableItem[];
   displayStyle: string;
   displayOrder: string;
+  showUnknownStudents: boolean;
 }
 
 class StudentsTable extends React.Component<Props, State> {
@@ -27,6 +29,7 @@ class StudentsTable extends React.Component<Props, State> {
       studentsTableItems: [],
       displayStyle: this.props.displayStyle,
       displayOrder: this.props.displayOrder,
+      showUnknownStudents: this.props.showUnknownStudents,
     };
 
     this.onTableRowCicked = this.onTableRowCicked.bind(this);
@@ -60,6 +63,9 @@ class StudentsTable extends React.Component<Props, State> {
   public componentDidUpdate(prevProps: Props) {
     if (this.props.displayOrder !== prevProps.displayOrder) {
       this.setState({ displayOrder: this.props.displayOrder });
+    }
+    if (this.props.showUnknownStudents !== prevProps.showUnknownStudents) {
+      this.setState({ showUnknownStudents: this.props.showUnknownStudents });
     }
   }
 
@@ -223,6 +229,24 @@ class StudentsTable extends React.Component<Props, State> {
       });
     });
 
+    const unknownStudentsTableItems = this.state.studentsTableItems
+      .filter((item) => item.workingFiles[0].fileName === "unknown")
+      .map((item, i) => {
+        if (this.state.showUnknownStudents) {
+          return (
+            <tr key={i} className="bg-secondary">
+              <td>{i + 1}</td>
+              <td>{item.studentID}</td>
+              <td>unknown</td>
+              <td>unknown</td>
+              <td>unknown</td>
+              <td>unknown</td>
+              <td>unknown</td>
+            </tr>
+          );
+        }
+      });
+
     return (
       <Table striped bordered hover variant="dark" className="mt-3">
         <thead>
@@ -236,7 +260,10 @@ class StudentsTable extends React.Component<Props, State> {
             <th>Errors</th>
           </tr>
         </thead>
-        <tbody>{table_rows}</tbody>
+        <tbody>
+          {table_rows}
+          {unknownStudentsTableItems}
+        </tbody>
       </Table>
     );
   }

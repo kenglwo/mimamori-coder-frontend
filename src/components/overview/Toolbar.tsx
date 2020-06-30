@@ -3,11 +3,13 @@ import React from "react";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import Dropdown from "react-bootstrap/Dropdown";
+import Form from "react-bootstrap/Form";
 
 interface Props {
   displayOrder: string;
   onSelectDisplayOrder: (eventKey: string) => void;
   onChangeDisplayStyle: (value: string) => void;
+  onChangeCheckbox: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 interface State {
   displayOrder: string;
@@ -45,7 +47,7 @@ class Toolbal extends React.Component<Props, State> {
           </ToggleButton>
         </ToggleButtonGroup>
         <Dropdown
-          className="float-left"
+          className="float-left mr-4"
           onSelect={this.props.onSelectDisplayOrder}
         >
           <Dropdown.Toggle variant="info" id="dropdown-basic">
@@ -84,6 +86,16 @@ class Toolbal extends React.Component<Props, State> {
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+        <Form className="mt-1" inline>
+          <Form.Group>
+            <Form.Check
+              className="text-white"
+              type="checkbox"
+              label="show unkown students"
+              onChange={this.props.onChangeCheckbox}
+            />
+          </Form.Group>
+        </Form>
       </div>
     );
   }

@@ -17,6 +17,7 @@ interface State {
   displayOrder: string;
   headerSelectorValue: string;
   headerInputValue: string;
+  showUnknownStudents: boolean;
 }
 
 class Overview extends React.Component<Props, State> {
@@ -28,10 +29,12 @@ class Overview extends React.Component<Props, State> {
       displayOrder: "studentID",
       headerSelectorValue: this.props.match.params.headerSelectorValue,
       headerInputValue: this.props.match.params.headerInputValue,
+      showUnknownStudents: false,
     };
 
     this.changeDisplayOrder = this.changeDisplayOrder.bind(this);
     this.changeDisplayStyle = this.changeDisplayStyle.bind(this);
+    this.onChangeCheckbox = this.onChangeCheckbox.bind(this);
   }
 
   public changeDisplayOrder(eventKey: string) {
@@ -42,6 +45,11 @@ class Overview extends React.Component<Props, State> {
   public changeDisplayStyle(value: string) {
     let style: DisplayOption["style"] = value as DisplayOption["style"];
     this.setState({ displayStyle: style });
+  }
+
+  public onChangeCheckbox(e: React.ChangeEvent<HTMLInputElement>) {
+    const showUnknownStudents = e.target.checked;
+    this.setState({ showUnknownStudents: showUnknownStudents });
   }
 
   public componentDidUpdate(prevProps: Props) {
@@ -66,6 +74,7 @@ class Overview extends React.Component<Props, State> {
             displayOrder={this.state.displayOrder}
             onSelectDisplayOrder={this.changeDisplayOrder}
             onChangeDisplayStyle={this.changeDisplayStyle}
+            onChangeCheckbox={this.onChangeCheckbox}
           />
         </Row>
         <Row className="mr-3">
@@ -74,6 +83,7 @@ class Overview extends React.Component<Props, State> {
             displayOrder={this.state.displayOrder}
             headerSelectorValue={this.state.headerSelectorValue}
             headerInputValue={this.state.headerInputValue}
+            showUnknownStudents={this.state.showUnknownStudents}
           />
         </Row>
       </Container>

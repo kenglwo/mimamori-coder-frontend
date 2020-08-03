@@ -75,6 +75,24 @@ class CodePane extends React.Component<Props, State> {
       this.setState({ currentCommitIndex: this.props.currentCommitIndex });
       this.loadCodeInfo(this.props.currentCommitIndex);
     }
+
+    if (this.props.studentID !== prevProps.studentID) {
+      this.setState({ studentID: this.props.studentID });
+      const url = `${process.env.REACT_APP_API_URL}/api/student_view/code?student_id=${this.props.studentID}&current_commit_index=${this.state.currentCommitIndex}`;
+
+      fetch(url, { mode: "cors" })
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            this.setState({
+              files: result,
+            });
+          },
+          (error) => {
+            console.log("Error: loadAllStudentTableItems");
+          }
+        );
+    }
   }
 
   public render() {

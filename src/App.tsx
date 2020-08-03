@@ -34,7 +34,10 @@ class App extends React.Component<Props, State> {
                     path={"/overview/:headerSelectorValue/:headerInputValue"}
                     component={Overview}
                   />
-                  <Route path={"/student/:studentID"} component={StudentView} />
+                  <Route
+                    path={"/student/:studentID/:currentStudentIDIndex/:displayOrder"}
+                    component={StudentView}
+                  />
                 </Switch>
               </Col>
             </Row>

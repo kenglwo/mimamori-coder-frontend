@@ -36,8 +36,8 @@ class StudentsTable extends React.Component<Props, State> {
     this.loadAllStudentTableItems = this.loadAllStudentTableItems.bind(this);
   }
 
-  onTableRowCicked = (studentID: string, e: React.MouseEvent<HTMLElement>) => {
-    this.props.history.push(`/student/${studentID}`);
+  onTableRowCicked = (studentID: string, i:number, e: React.MouseEvent<HTMLElement>) => {
+    this.props.history.push(`/student/${studentID}/${i}/${this.state.displayOrder}`);
   };
 
   public loadAllStudentTableItems() {
@@ -197,7 +197,7 @@ class StudentsTable extends React.Component<Props, State> {
           return (
             <tr
               key={`${i}-${fileIndex}`}
-              onClick={this.onTableRowCicked.bind(this, item.studentID)}
+              onClick={this.onTableRowCicked.bind(this, item.studentID, i)}
               className={checkCodeStatus(file.codeStatus)}
             >
               <td>{i + 1}</td>
@@ -211,7 +211,7 @@ class StudentsTable extends React.Component<Props, State> {
           return (
             <tr
               key={`${i}-${fileIndex}`}
-              onClick={this.onTableRowCicked.bind(this, item.studentID)}
+              onClick={this.onTableRowCicked.bind(this, item.studentID, i)}
               className={checkCodeStatus(file.codeStatus)}
             >
               <td></td>

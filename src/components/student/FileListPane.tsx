@@ -25,6 +25,24 @@ class FileListPane extends React.Component<Props, State> {
     this.loadFileList();
   }
 
+  public componentDidUpdate(prevProps: Props) {
+    if (this.props.studentID !== prevProps.studentID) {
+      this.setState({ studentID: this.props.studentID });
+      const url = `${process.env.REACT_APP_API_URL}/api/student_view/file_list?student_id=${this.props.studentID}`;
+
+      fetch(url, { mode: "cors" })
+        .then((res) => res.json())
+        .then(
+          (jsonData) => {
+            this.setState({ fileNameList: jsonData["fileNameList"] });
+          },
+          (error) => {
+            console.log("API Error");
+          }
+        );
+    }
+  }
+
   public loadFileList() {
     const url = `${process.env.REACT_APP_API_URL}/api/student_view/file_list?student_id=${this.state.studentID}`;
 

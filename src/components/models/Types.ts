@@ -31,8 +31,11 @@ export type StudentTableItem = {
 
 export type StudentViewItem = {
   studentID: string;
+  currentStudentIDIndex: number;
+  displayOrder: string;
   commitTotalNum: number;
   currentCommitIndex: number;
+  showLeftColumn: boolean;
 };
 
 export type FileStatus = "A" | "M" | "D";

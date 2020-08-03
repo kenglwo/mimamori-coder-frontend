@@ -9,6 +9,7 @@ interface Props {
   setCurrentCommitIndex: (commitIndex: number) => void;
 }
 interface State {
+  studentID: string;
   currentCommitIndex: number;
   commitLogs: CommitLogInfo[];
 }
@@ -18,6 +19,7 @@ class CommitLog extends React.Component<Props, State> {
     super(props);
 
     this.state = {
+      studentID: this.props.studentID,
       currentCommitIndex: this.props.currentCommitIndex,
       commitLogs: [],
     };
@@ -33,10 +35,26 @@ class CommitLog extends React.Component<Props, State> {
     if (this.props.currentCommitIndex !== prevProps.currentCommitIndex) {
       this.setState({ currentCommitIndex: this.props.currentCommitIndex });
     }
+
+    if (this.props.studentID !== prevProps.studentID) {
+      this.setState({ studentID: this.props.studentID });
+      const url = `${process.env.REACT_APP_API_URL}/api/student_view/commit_log?student_id=${this.props.studentID}`;
+
+      fetch(url, { mode: "cors" })
+        .then((res) => res.json())
+        .then(
+          (jsonData) => {
+            this.setState({ commitLogs: jsonData });
+          },
+          (error) => {
+            console.log("Error: loadAllStudentTableItems");
+          }
+        );
+    }
   }
 
   public loadCommitLog() {
-    const url = `${process.env.REACT_APP_API_URL}/api/student_view/commit_log?student_id=${this.props.studentID}`;
+    const url = `${process.env.REACT_APP_API_URL}/api/student_view/commit_log?student_id=${this.state.studentID}`;
 
     fetch(url, { mode: "cors" })
       .then((res) => res.json())

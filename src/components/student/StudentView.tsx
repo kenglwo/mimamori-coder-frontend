@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-
+import ToolBox from "./ToolBox";
 import StudentInfo from "./StudentInfo";
 import FileListPane from "./FileListPane";
 import CommitLog from "./CommitLog";
@@ -11,7 +11,7 @@ import CodePane from "./CodePane";
 import ConsolePane from "./ConsolePane";
 import PreviewPane from "./PreviewPane";
 
-import { StudentViewItem } from "../models/Types";
+import { StudentViewItem, StudentTableItem } from "../models/Types";
 
 interface DebugMessage {
   fileName: string;
@@ -27,8 +27,15 @@ interface Commit {
 
 interface CommitInfo {}
 
-interface Props extends RouteComponentProps<{ studentID: string }> {}
-interface State extends StudentViewItem {}
+interface Props
+  extends RouteComponentProps<{
+    studentID: string;
+    currentStudentIDIndex: string;
+    displayOrder: string;
+  }> {}
+interface State extends StudentViewItem {
+  studentTableItems: StudentTableItem[];
+}
 
 class StudentView extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -36,14 +43,23 @@ class StudentView extends React.Component<Props, State> {
 
     this.state = {
       studentID: this.props.match.params.studentID,
+      currentStudentIDIndex: Number(
+        this.props.match.params.currentStudentIDIndex
+      ),
+      studentTableItems: [],
+      displayOrder: this.props.match.params.displayOrder,
       commitTotalNum: 0,
       currentCommitIndex: 0,
+      showLeftColumn: true,
     };
 
     this.showOlderCommit = this.showOlderCommit.bind(this);
     this.showNewerCommit = this.showNewerCommit.bind(this);
     this.setCurrentCommitIndex = this.setCurrentCommitIndex.bind(this);
     this.loadStudentItem = this.loadStudentItem.bind(this);
+    this.onChangeShowLeft = this.onChangeShowLeft.bind(this);
+    this.onClickPreviousStudent = this.onClickPreviousStudent.bind(this);
+    this.onClickNextStudent = this.onClickNextStudent.bind(this);
   }
 
   public showOlderCommit() {
@@ -83,27 +99,190 @@ class StudentView extends React.Component<Props, State> {
           console.log("Error: loadAllStudentTableItems");
         }
       );
+
+    const url2 = `${process.env.REACT_APP_API_URL}/api/students_table_items`;
+    fetch(url2, { mode: "cors" })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            studentTableItems: result,
+          });
+        },
+        (error) => {
+          console.log("API Error");
+        }
+      );
   }
 
   public componentDidMount() {
     this.loadStudentItem();
   }
 
+  public componentDidUpdate(prevProps: Props, prevState: State) {
+    if (this.state.studentID !== prevState.studentID) {
+      const url = `${process.env.REACT_APP_API_URL}/api/student_view?student_id=${this.state.studentID}`;
+
+      fetch(url, { mode: "cors" })
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            this.setState({
+              commitTotalNum: result["commitTotalNum"],
+              currentCommitIndex: result["commitTotalNum"],
+            });
+          },
+          (error) => {
+            console.log("Error: loadAllStudentTableItems");
+          }
+        );
+    }
+  }
+
+  public onChangeShowLeft(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.checked;
+    this.setState({ showLeftColumn: value });
+  }
+
+  public orderByStudentID(a: StudentTableItem, b: StudentTableItem) {
+    const studentIDA = a.studentID.toUpperCase();
+    const studentIDB = b.studentID.toUpperCase();
+
+    let comparison = 0;
+    if (studentIDA > studentIDB) {
+      comparison = 1;
+    } else if (studentIDA < studentIDB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+  public orderByCommitNumAsc(a: StudentTableItem, b: StudentTableItem) {
+    const studentA = Number(a.workingFiles[0].commitIndex);
+    const studentB = Number(b.workingFiles[0].commitIndex);
+
+    let comparison = 0;
+    if (studentA > studentB) {
+      comparison = 1;
+    } else if (studentA < studentB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+  public orderByCommitNumDesc(a: StudentTableItem, b: StudentTableItem) {
+    const studentA = Number(a.workingFiles[0].commitIndex);
+    const studentB = Number(b.workingFiles[0].commitIndex);
+
+    let comparison = 0;
+    if (studentA < studentB) {
+      comparison = 1;
+    } else if (studentA > studentB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+  public orderByLastUpdatedTimeAsc(a: StudentTableItem, b: StudentTableItem) {
+    const studentA = a.workingFiles[0].updatedTime;
+    const studentB = b.workingFiles[0].updatedTime;
+
+    let comparison = 0;
+    if (studentA > studentB) {
+      comparison = 1;
+    } else if (studentA < studentB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+  public orderByLastUpdatedTimeDesc(a: StudentTableItem, b: StudentTableItem) {
+    const studentA = a.workingFiles[0].updatedTime;
+    const studentB = b.workingFiles[0].updatedTime;
+
+    let comparison = 0;
+    if (studentA < studentB) {
+      comparison = 1;
+    } else if (studentA > studentB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
+  public onClickPreviousStudent() {
+    this.setState((prevState: State) => {
+      const prevIndex = prevState.currentStudentIDIndex;
+      const newIndex = prevIndex === 0 ? prevIndex : prevIndex - 1;
+      const newStudentID = this.state.studentTableItems[newIndex]["studentID"];
+
+      return {
+        currentStudentIDIndex: newIndex,
+        studentID: newStudentID,
+      };
+    });
+  }
+  public onClickNextStudent() {
+    this.setState((prevState: State) => {
+      const prevIndex = prevState.currentStudentIDIndex;
+      const newIndex =
+        prevIndex === this.state.studentTableItems.length - 1
+          ? prevIndex
+          : prevIndex + 1;
+      const newStudentID = this.state.studentTableItems[newIndex]["studentID"];
+
+      return {
+        currentStudentIDIndex: newIndex,
+        studentID: newStudentID,
+      };
+    });
+  }
+
   public render() {
+    let studentTableItems = this.state.studentTableItems;
+
+    studentTableItems =
+      this.state.displayOrder === "studentID"
+        ? studentTableItems.sort(this.orderByStudentID)
+        : studentTableItems;
+    studentTableItems =
+      this.state.displayOrder === "commits_asc"
+        ? studentTableItems.sort(this.orderByCommitNumAsc)
+        : studentTableItems;
+    studentTableItems =
+      this.state.displayOrder === "commits_desc"
+        ? studentTableItems.sort(this.orderByCommitNumDesc)
+        : studentTableItems;
+    studentTableItems =
+      this.state.displayOrder === "updated_time_asc"
+        ? studentTableItems.sort(this.orderByLastUpdatedTimeAsc)
+        : studentTableItems;
+    studentTableItems =
+      this.state.displayOrder === "updated_time_desc"
+        ? studentTableItems.sort(this.orderByLastUpdatedTimeDesc)
+        : studentTableItems;
+
     return (
       <Container fluid>
         <Row>
-          <Col md={3} className="pr-0">
-            <StudentInfo studentID={this.state.studentID} />
-            <FileListPane studentID={this.state.studentID} />
-            <CommitLog
-              studentID={this.state.studentID}
-              currentCommitIndex={this.state.currentCommitIndex}
-              commitTotalNum={this.state.commitTotalNum}
-              setCurrentCommitIndex={this.setCurrentCommitIndex}
+          <Col md={6}>
+            <ToolBox
+              showLeftColumn={this.state.showLeftColumn}
+              onChangeShowLeft={this.onChangeShowLeft}
+              onClickPreviousStudent={this.onClickPreviousStudent}
+              onClickNextStudent={this.onClickNextStudent}
             />
           </Col>
-          <Col md={9} className="pl-0 pr-1">
+        </Row>
+        <Row>
+          {this.state.showLeftColumn && (
+            <Col md={this.state.showLeftColumn ? 3 : 0} className="pr-0">
+              <StudentInfo studentID={this.state.studentID} />
+              <FileListPane studentID={this.state.studentID} />
+              <CommitLog
+                studentID={this.state.studentID}
+                currentCommitIndex={this.state.currentCommitIndex}
+                commitTotalNum={this.state.commitTotalNum}
+                setCurrentCommitIndex={this.setCurrentCommitIndex}
+              />
+            </Col>
+          )}
+          <Col md={this.state.showLeftColumn ? 9 : 12} className="pl-0 pr-1">
             <Container fluid>
               <Row>
                 <Col md={6} className="p-0">

@@ -36,10 +36,6 @@ class FileListPane extends React.Component<Props, State> {
         },
         (error) => {
           console.log("API Error");
-          // this.setState({
-          //   // error,
-          //   isLoaded: true
-          /// });
         }
       );
   }

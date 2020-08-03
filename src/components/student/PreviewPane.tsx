@@ -28,27 +28,21 @@ class PreviewPane extends React.Component<Props, State> {
 
   public loadCodeStrings(currentCommitIndex: number) {
     const url = `${process.env.REACT_APP_API_URL}/api/student_view/code_string?student_id=${this.state.studentID}&current_commit_index=${currentCommitIndex}`;
+    console.log(url);
 
     fetch(url, { mode: "cors" })
       .then((res) => res.json())
       .then(
         (jsonData) => {
+          console.log(jsonData);
           this.setState({
             codeStrings: jsonData,
           });
         },
         (error) => {
           console.log("Error: loadAllStudentTableItems");
-          // this.setState({
-          //   // error,
-          //   isLoaded: true
-          /// });
         }
       );
-  }
-
-  public componentDidMount() {
-    // this.loadCodeStrings();
   }
 
   public componentDidUpdate(prevProps: Props) {

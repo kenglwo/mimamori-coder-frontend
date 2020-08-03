@@ -84,30 +84,13 @@ class CodePane extends React.Component<Props, State> {
       const codePanes = this.state.files.map((file, i) => {
         const extName = path.extname(this.state.files[i]["fileName"]).slice(1);
 
-				// TODO: set var below properly
+        // TODO: set var below properly
         const codeDiffWithBgColor = this.state.files[i]["codeDiff"];
 
         if (this.state.files[i]["codeStatus"] !== null) {
           return (
             <div key={i}>
-              <div
-                className="d-flex justify-content-start pt-4 pl-2"
-                id="filename_tag"
-              >
-                <span className="badge badge-secondary">
-                  {this.state.files[i]["fileName"]}
-                </span>
-                {this.state.files[i]["codeStatus"] === "ok" && (
-                  <span className="badge badge-primary ml-3">OK</span>
-                )}
-                {this.state.files[i]["codeStatus"] === "error" && (
-                  <span className="badge badge-danger ml-3">Error</span>
-                )}
-                {this.state.files[i]["codeStatus"] === "warning" && (
-                  <span className="badge badge-warning ml-3">Warning</span>
-                )}
-              </div>
-              <div className="mb-4">
+              <div className="m-4">
                 {this.state.currentCommitIndex > 1 && (
                   <button
                     type="button"
@@ -128,6 +111,23 @@ class CodePane extends React.Component<Props, State> {
                   >
                     {">"}
                   </button>
+                )}
+              </div>
+              <div
+                className="d-flex justify-content-start m-4"
+                id="filename_tag"
+              >
+                <span className="badge badge-secondary">
+                  {this.state.files[i]["fileName"]}
+                </span>
+                {this.state.files[i]["codeStatus"] === "ok" && (
+                  <span className="badge badge-primary ml-3">OK</span>
+                )}
+                {this.state.files[i]["codeStatus"] === "error" && (
+                  <span className="badge badge-danger ml-3">Error</span>
+                )}
+                {this.state.files[i]["codeStatus"] === "warning" && (
+                  <span className="badge badge-warning ml-3">Warning</span>
                 )}
               </div>
               <SyntaxHighlighter
@@ -151,24 +151,7 @@ class CodePane extends React.Component<Props, State> {
         } else {
           return (
             <div key={i}>
-              <div
-                className="d-flex justify-content-start pt-4 pl-2"
-                id="filename_tag"
-              >
-                <span className="badge badge-secondary">
-                  {this.state.files[i]["fileName"]}
-                </span>
-                {this.state.files[i]["codeStatus"] === "ok" && (
-                  <span className="badge badge-primary ml-3">OK</span>
-                )}
-                {this.state.files[i]["codeStatus"] === "error" && (
-                  <span className="badge badge-danger ml-3">Error</span>
-                )}
-                {this.state.files[i]["codeStatus"] === "warning" && (
-                  <span className="badge badge-warning ml-3">Warning</span>
-                )}
-              </div>
-              <div className="mb-4">
+              <div className="m-4">
                 {this.state.currentCommitIndex > 1 && (
                   <button
                     type="button"
@@ -190,6 +173,23 @@ class CodePane extends React.Component<Props, State> {
                     {">"}
                   </button>
                 )}
+                <div
+                  className="d-flex justify-content-start mt-4"
+                  id="filename_tag"
+                >
+                  <span className="badge badge-secondary">
+                    {this.state.files[i]["fileName"]}
+                  </span>
+                  {this.state.files[i]["codeStatus"] === "ok" && (
+                    <span className="badge badge-primary ml-3">OK</span>
+                  )}
+                  {this.state.files[i]["codeStatus"] === "error" && (
+                    <span className="badge badge-danger ml-3">Error</span>
+                  )}
+                  {this.state.files[i]["codeStatus"] === "warning" && (
+                    <span className="badge badge-warning ml-3">Warning</span>
+                  )}
+                </div>
               </div>
               <SyntaxHighlighter
                 className="m-3"

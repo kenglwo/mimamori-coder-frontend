@@ -114,7 +114,6 @@ class StudentView extends React.Component<Props, State> {
                     showOlderCommit={this.showOlderCommit}
                     showNewerCommit={this.showNewerCommit}
                   />
-                  <ConsolePane />
                 </Col>
                 <Col md={6} className="p-0">
                   <PreviewPane

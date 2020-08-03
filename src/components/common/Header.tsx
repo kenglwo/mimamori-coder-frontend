@@ -64,18 +64,11 @@ class Header extends React.Component<Props, State> {
               Home
             </Nav.Link>
             <Nav.Link
-              className="font-weight-bold"
+              className="font-weight-bold mr-5"
               id="overview"
               href={this.state.overviewUrl}
             >
               Overview
-            </Nav.Link>
-            <Nav.Link
-              className="font-weight-bold mr-5"
-              id="statistics"
-              href="#"
-            >
-              Statistics
             </Nav.Link>
             <Form inline>
               <Form.Group className="mr-3" controlId="exampleForm.SelectCustom">

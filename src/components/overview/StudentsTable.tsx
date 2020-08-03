@@ -205,8 +205,6 @@ class StudentsTable extends React.Component<Props, State> {
               <td>{file.commitIndex}</td>
               <td>{file.updatedTime}</td>
               <td>{file.fileName}</td>
-              <td>{file.warningNum}</td>
-              <td>{file.errorNum}</td>
             </tr>
           );
         } else {
@@ -221,8 +219,6 @@ class StudentsTable extends React.Component<Props, State> {
               <td></td>
               <td></td>
               <td>{file.fileName}</td>
-              <td>{file.warningNum}</td>
-              <td>{file.errorNum}</td>
             </tr>
           );
         }
@@ -240,8 +236,6 @@ class StudentsTable extends React.Component<Props, State> {
               <td>unknown</td>
               <td>unknown</td>
               <td>unknown</td>
-              <td>unknown</td>
-              <td>unknown</td>
             </tr>
           );
         }
@@ -256,8 +250,6 @@ class StudentsTable extends React.Component<Props, State> {
             <th>Commits</th>
             <th>Last Updated Time</th>
             <th>Working File Name</th>
-            <th>Warnings</th>
-            <th>Errors</th>
           </tr>
         </thead>
         <tbody>

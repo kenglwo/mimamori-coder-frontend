@@ -36,8 +36,14 @@ class StudentsTable extends React.Component<Props, State> {
     this.loadAllStudentTableItems = this.loadAllStudentTableItems.bind(this);
   }
 
-  onTableRowCicked = (studentID: string, i:number, e: React.MouseEvent<HTMLElement>) => {
-    this.props.history.push(`/student/${studentID}/${i}/${this.state.displayOrder}`);
+  onTableRowCicked = (
+    studentID: string,
+    i: number,
+    e: React.MouseEvent<HTMLElement>
+  ) => {
+    this.props.history.push(
+      `/student/${studentID}/${i}/${this.state.displayOrder}`
+    );
   };
 
   public loadAllStudentTableItems() {

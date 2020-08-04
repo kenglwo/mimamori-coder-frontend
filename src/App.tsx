@@ -35,7 +35,9 @@ class App extends React.Component<Props, State> {
                     component={Overview}
                   />
                   <Route
-                    path={"/student/:studentID/:currentStudentIDIndex/:displayOrder"}
+                    path={
+                      "/student/:studentID/:currentStudentIDIndex/:displayOrder"
+                    }
                     component={StudentView}
                   />
                 </Switch>

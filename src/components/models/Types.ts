@@ -36,6 +36,8 @@ export type StudentViewItem = {
   commitTotalNum: number;
   currentCommitIndex: number;
   showLeftColumn: boolean;
+  showMiddleColumn: boolean;
+  showRightColumn: boolean;
 };
 
 export type FileStatus = "A" | "M" | "D";

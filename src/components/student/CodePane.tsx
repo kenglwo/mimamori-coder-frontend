@@ -21,6 +21,7 @@ interface Props {
   commitTotalNum: number;
   showOlderCommit: () => void;
   showNewerCommit: () => void;
+  showMiddleColumn: boolean;
 }
 
 type CodeInfo = {
@@ -35,6 +36,7 @@ interface State {
   syntaxStyle: string;
   currentCommitIndex: number;
   files: CodeInfo[];
+  showMiddleColumn: boolean;
 }
 
 class CodePane extends React.Component<Props, State> {
@@ -46,6 +48,7 @@ class CodePane extends React.Component<Props, State> {
       studentID: this.props.studentID,
       files: [],
       currentCommitIndex: this.props.currentCommitIndex,
+      showMiddleColumn: this.props.showMiddleColumn,
     };
 
     this.loadCodeInfo = this.loadCodeInfo.bind(this);
@@ -92,6 +95,9 @@ class CodePane extends React.Component<Props, State> {
             console.log("Error: loadAllStudentTableItems");
           }
         );
+    }
+    if (this.props.showMiddleColumn !== prevProps.showMiddleColumn) {
+      this.setState({ showMiddleColumn: this.props.showMiddleColumn });
     }
   }
 
@@ -223,7 +229,10 @@ class CodePane extends React.Component<Props, State> {
       });
 
       return (
-        <div id="code_pane_wrapper">
+        <div
+          id="code_pane_wrapper"
+          className={this.state.showMiddleColumn ? "" : "d-none"}
+        >
           <div className="bg-info p-1 text-white font-weight-bold">
             Code Pane
           </div>

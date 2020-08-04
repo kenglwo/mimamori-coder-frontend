@@ -4,6 +4,7 @@ import "../../stylesheets/PreviewPane.scss";
 interface Props {
   studentID: string;
   currentCommitIndex: number;
+  showRightColumn: boolean;
 }
 interface State {
   studentID: string;
@@ -11,6 +12,7 @@ interface State {
   codeStrings: {
     [key: string]: string;
   }[];
+  showRightColumn: boolean;
 }
 
 class PreviewPane extends React.Component<Props, State> {
@@ -21,6 +23,7 @@ class PreviewPane extends React.Component<Props, State> {
       studentID: this.props.studentID,
       currentCommitIndex: this.props.currentCommitIndex,
       codeStrings: [],
+      showRightColumn: this.props.showRightColumn,
     };
 
     this.loadCodeStrings = this.loadCodeStrings.bind(this);
@@ -68,6 +71,10 @@ class PreviewPane extends React.Component<Props, State> {
           }
         );
     }
+
+    if (this.props.showRightColumn !== prevProps.showRightColumn) {
+      this.setState({ showRightColumn: this.props.showRightColumn });
+    }
   }
 
   public render() {
@@ -82,7 +89,10 @@ class PreviewPane extends React.Component<Props, State> {
     ));
 
     return (
-      <div id="preview_pane_wrapper">
+      <div
+        id="preview_pane_wrapper"
+        className={this.state.showRightColumn ? "" : "d-none"}
+      >
         <div className="bg-success p-1 text-white font-weight-bold">
           Preview Pane
         </div>

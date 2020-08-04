@@ -4,7 +4,11 @@ import Form from "react-bootstrap/Form";
 
 interface Props {
   showLeftColumn: boolean;
+  showMiddleColumn: boolean;
+  showRightColumn: boolean;
   onChangeShowLeft: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeShowMiddle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeShowRight: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClickPreviousStudent: () => void;
   onClickNextStudent: () => void;
 }
@@ -37,12 +41,29 @@ class ToolBox extends React.Component<Props, State> {
                 {">"}
               </button>
             </div>
+            <span className="mr-3">Panes</span>
             <Form.Group className="mr-3 mt-3">
               <Form.Check
                 type="checkbox"
-                label="Left Panels"
+                label="Left"
                 checked={this.props.showLeftColumn}
                 onChange={this.props.onChangeShowLeft}
+              />
+            </Form.Group>
+            <Form.Group className="mr-3 mt-3">
+              <Form.Check
+                type="checkbox"
+                label="Code"
+                checked={this.props.showMiddleColumn}
+                onChange={this.props.onChangeShowMiddle}
+              />
+            </Form.Group>
+            <Form.Group className="mr-3 mt-3">
+              <Form.Check
+                type="checkbox"
+                label="Preview"
+                checked={this.props.showRightColumn}
+                onChange={this.props.onChangeShowRight}
               />
             </Form.Group>
           </Form.Row>

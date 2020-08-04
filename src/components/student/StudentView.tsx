@@ -51,6 +51,8 @@ class StudentView extends React.Component<Props, State> {
       commitTotalNum: 0,
       currentCommitIndex: 0,
       showLeftColumn: true,
+      showMiddleColumn: true,
+      showRightColumn: true,
     };
 
     this.showOlderCommit = this.showOlderCommit.bind(this);
@@ -58,6 +60,8 @@ class StudentView extends React.Component<Props, State> {
     this.setCurrentCommitIndex = this.setCurrentCommitIndex.bind(this);
     this.loadStudentItem = this.loadStudentItem.bind(this);
     this.onChangeShowLeft = this.onChangeShowLeft.bind(this);
+    this.onChangeShowMiddle = this.onChangeShowMiddle.bind(this);
+    this.onChangeShowRight = this.onChangeShowRight.bind(this);
     this.onClickPreviousStudent = this.onClickPreviousStudent.bind(this);
     this.onClickNextStudent = this.onClickNextStudent.bind(this);
   }
@@ -142,6 +146,14 @@ class StudentView extends React.Component<Props, State> {
   public onChangeShowLeft(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.checked;
     this.setState({ showLeftColumn: value });
+  }
+  public onChangeShowMiddle(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.checked;
+    this.setState({ showMiddleColumn: value });
+  }
+  public onChangeShowRight(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.checked;
+    this.setState({ showRightColumn: value });
   }
 
   public orderByStudentID(a: StudentTableItem, b: StudentTableItem) {
@@ -238,7 +250,9 @@ class StudentView extends React.Component<Props, State> {
   }
 
   public render() {
-    let studentTableItems = this.state.studentTableItems;
+    let studentTableItems = this.state.studentTableItems.filter(
+      (item) => item.workingFiles[0].fileName !== "unknown"
+    );
 
     studentTableItems =
       this.state.displayOrder === "studentID"
@@ -261,13 +275,22 @@ class StudentView extends React.Component<Props, State> {
         ? studentTableItems.sort(this.orderByLastUpdatedTimeDesc)
         : studentTableItems;
 
+    console.log("#################");
+    console.log(`showLeft: ${this.state.showLeftColumn}`);
+    console.log(`showMiddle: ${this.state.showMiddleColumn}`);
+    console.log(`showRight: ${this.state.showRightColumn}`);
+
     return (
       <Container fluid>
         <Row>
           <Col md={6}>
             <ToolBox
               showLeftColumn={this.state.showLeftColumn}
+              showMiddleColumn={this.state.showMiddleColumn}
+              showRightColumn={this.state.showRightColumn}
               onChangeShowLeft={this.onChangeShowLeft}
+              onChangeShowMiddle={this.onChangeShowMiddle}
+              onChangeShowRight={this.onChangeShowRight}
               onClickPreviousStudent={this.onClickPreviousStudent}
               onClickNextStudent={this.onClickNextStudent}
             />
@@ -289,19 +312,21 @@ class StudentView extends React.Component<Props, State> {
           <Col md={this.state.showLeftColumn ? 9 : 12} className="pl-0 pr-1">
             <Container fluid>
               <Row>
-                <Col md={6} className="p-0">
+                <Col md={this.state.showRightColumn ? 6 : 12} className="p-0">
                   <CodePane
                     studentID={this.state.studentID}
                     currentCommitIndex={this.state.currentCommitIndex}
                     commitTotalNum={this.state.commitTotalNum}
                     showOlderCommit={this.showOlderCommit}
                     showNewerCommit={this.showNewerCommit}
+                    showMiddleColumn={this.state.showMiddleColumn}
                   />
                 </Col>
-                <Col md={6} className="p-0">
+                <Col md={this.state.showMiddleColumn ? 6 : 12} className="p-0">
                   <PreviewPane
                     studentID={this.state.studentID}
                     currentCommitIndex={this.state.currentCommitIndex}
+										showRightColumn={this.state.showRightColumn}
                   />
                 </Col>
               </Row>

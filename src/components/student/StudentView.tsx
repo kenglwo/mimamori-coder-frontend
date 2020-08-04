@@ -207,9 +207,11 @@ class StudentView extends React.Component<Props, State> {
 
   public onClickPreviousStudent() {
     this.setState((prevState: State) => {
-      const prevIndex = prevState.currentStudentIDIndex;
-      const newIndex = prevIndex === 0 ? prevIndex : prevIndex - 1;
-      const newStudentID = this.state.studentTableItems[newIndex]["studentID"];
+      const prevIndex: number = Number(prevState.currentStudentIDIndex);
+      const newIndex: number = prevIndex === 0 ? prevIndex : prevIndex - 1;
+      const newStudentID: string = this.state.studentTableItems[newIndex][
+        "studentID"
+      ];
 
       return {
         currentStudentIDIndex: newIndex,
@@ -219,12 +221,14 @@ class StudentView extends React.Component<Props, State> {
   }
   public onClickNextStudent() {
     this.setState((prevState: State) => {
-      const prevIndex = prevState.currentStudentIDIndex;
-      const newIndex =
+      const prevIndex: number = Number(prevState.currentStudentIDIndex);
+      const newIndex: number =
         prevIndex === this.state.studentTableItems.length - 1
           ? prevIndex
           : prevIndex + 1;
-      const newStudentID = this.state.studentTableItems[newIndex]["studentID"];
+      const newStudentID: string = this.state.studentTableItems[newIndex][
+        "studentID"
+      ];
 
       return {
         currentStudentIDIndex: newIndex,

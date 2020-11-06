@@ -32,20 +32,6 @@ class Toolbal extends React.Component<Props, State> {
   public render() {
     return (
       <div className="mt-4 ml-2 p-2 bg-dark">
-        <ToggleButtonGroup
-          type="radio"
-          name="options"
-          defaultValue={"table"}
-          onChange={this.props.onChangeDisplayStyle}
-          className="float-left mr-4"
-        >
-          <ToggleButton variant="secondary" value={"table"}>
-            Table
-          </ToggleButton>
-          <ToggleButton variant="secondary" value={"card"}>
-            Card
-          </ToggleButton>
-        </ToggleButtonGroup>
         <Dropdown
           className="float-left mr-4"
           onSelect={this.props.onSelectDisplayOrder}

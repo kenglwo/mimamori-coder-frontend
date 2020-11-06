@@ -275,11 +275,6 @@ class StudentView extends React.Component<Props, State> {
         ? studentTableItems.sort(this.orderByLastUpdatedTimeDesc)
         : studentTableItems;
 
-    console.log("#################");
-    console.log(`showLeft: ${this.state.showLeftColumn}`);
-    console.log(`showMiddle: ${this.state.showMiddleColumn}`);
-    console.log(`showRight: ${this.state.showRightColumn}`);
-
     return (
       <Container fluid>
         <Row>
@@ -326,7 +321,7 @@ class StudentView extends React.Component<Props, State> {
                   <PreviewPane
                     studentID={this.state.studentID}
                     currentCommitIndex={this.state.currentCommitIndex}
-										showRightColumn={this.state.showRightColumn}
+                    showRightColumn={this.state.showRightColumn}
                   />
                 </Col>
               </Row>

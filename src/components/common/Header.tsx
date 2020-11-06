@@ -20,6 +20,8 @@ interface State {
   isSupervisor: boolean;
   supervisorPassword: string;
   isModalShow: boolean;
+  authMessage: string;
+  authFailed: boolean;
 }
 
 class Header extends React.Component<Props, State> {
@@ -33,6 +35,8 @@ class Header extends React.Component<Props, State> {
       isSupervisor: false,
       supervisorPassword: "",
       isModalShow: false,
+      authMessage: "Please input Supervisor Password.",
+      authFailed: false,
     };
     this.onHeaderSelectorChanged = this.onHeaderSelectorChanged.bind(this);
     this.onHeaderInputChanged = this.onHeaderInputChanged.bind(this);
@@ -73,7 +77,11 @@ class Header extends React.Component<Props, State> {
   }
 
   public handleModalClose() {
-    this.setState({ isModalShow: false });
+    this.setState({
+      isModalShow: false,
+      authMessage: "Please input Supervisor Password.",
+      authFailed: false,
+    });
   }
 
   public onChangeSupervisorPassword(e: React.ChangeEvent<HTMLInputElement>) {
@@ -84,8 +92,37 @@ class Header extends React.Component<Props, State> {
   public onSubmitSupervisorPassword() {
     console.log(this.state.supervisorPassword);
     //TODO: check password via API
+    const url = `${process.env.REACT_APP_API_URL}/api/auth_supervisor`;
 
-    this.setState({ isSupervisor: true });
+    const authInfo = {
+      supervisor_password: this.state.supervisorPassword,
+    };
+
+    const method = "POST";
+    const mode = "cors";
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
+    const body = JSON.stringify(authInfo);
+    console.log(body);
+
+    fetch(url, { method, mode, headers, body })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status === "success") {
+          this.setState({
+            isSupervisor: true,
+            authMessage: "Authentication Success!",
+          });
+        } else {
+          this.setState({
+            authMessage: "Please input correct password",
+            authFailed: true,
+          });
+        }
+      })
+      .catch(console.error);
   }
 
   public render() {
@@ -163,14 +200,24 @@ class Header extends React.Component<Props, State> {
         </Navbar>
         <Modal show={this.state.isModalShow} onHide={this.handleModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Superuser Authentication</Modal.Title>
+            <Modal.Title>Supervisor Authentication</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.state.isSupervisor ? (
-              <p>Authentication Success!</p>
+              <p className="mb-2 text-primary font-weight-bold">
+                {this.state.authMessage}
+              </p>
             ) : (
               <div>
-                <p className="mb-2">Please input Supervisor Password.</p>
+                {this.state.authFailed ? (
+                  <p className="mb-2 text-danger font-weight-bold">
+                    {this.state.authMessage}
+                  </p>
+                ) : (
+                  <p className="mb-2 font-weight-bold">
+                    {this.state.authMessage}
+                  </p>
+                )}
                 <InputGroup className="mb-3">
                   <InputGroup.Prepend>
                     <InputGroup.Text>Password</InputGroup.Text>

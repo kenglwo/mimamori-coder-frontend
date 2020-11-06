@@ -238,7 +238,11 @@ class Header extends React.Component<Props, State> {
               </Button>
             ) : (
               <div>
-                <Button variant="secondary" onClick={this.handleModalClose}>
+                <Button
+                  className="mr-3"
+                  variant="secondary"
+                  onClick={this.handleModalClose}
+                >
                   Cancel
                 </Button>
                 <Button

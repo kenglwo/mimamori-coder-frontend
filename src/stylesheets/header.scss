@@ -1,3 +1,17 @@
 .header_button {
 	font-weight: bold;
 }
+
+svg#isNotSupervisor {
+	fill: white !important;
+}
+
+svg#isNotSupervisor:hover {
+	fill: #17a2b8 !important;
+	cursor: pointer;
+}
+
+svg#isSupervisor {
+	fill: #17a2b8 !important;
+	cursor: pointer;
+}

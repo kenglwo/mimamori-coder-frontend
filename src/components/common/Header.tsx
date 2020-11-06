@@ -6,6 +6,9 @@ import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import InputGroup from "react-bootstrap/InputGroup";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import logo from "../../images/logo.svg";
 import "../../stylesheets/header.scss";
 
@@ -14,6 +17,9 @@ interface State {
   headerSelectorValue: string;
   headerInputValue: string;
   overviewUrl: string;
+  isSupervisor: boolean;
+  supervisorPassword: string;
+  isModalShow: boolean;
 }
 
 class Header extends React.Component<Props, State> {
@@ -24,10 +30,21 @@ class Header extends React.Component<Props, State> {
       headerSelectorValue: "studentID",
       headerInputValue: "all",
       overviewUrl: "/overview/studentID/all",
+      isSupervisor: false,
+      supervisorPassword: "",
+      isModalShow: false,
     };
     this.onHeaderSelectorChanged = this.onHeaderSelectorChanged.bind(this);
     this.onHeaderInputChanged = this.onHeaderInputChanged.bind(this);
     this.onClickSearch = this.onClickSearch.bind(this);
+    this.handleModalShow = this.handleModalShow.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
+    this.onChangeSupervisorPassword = this.onChangeSupervisorPassword.bind(
+      this
+    );
+    this.onSubmitSupervisorPassword = this.onSubmitSupervisorPassword.bind(
+      this
+    );
   }
   public onHeaderSelectorChanged(e: React.ChangeEvent<HTMLSelectElement>) {
     const value: string = e.target.value;
@@ -46,10 +63,41 @@ class Header extends React.Component<Props, State> {
     );
   }
 
+  public handleModalShow() {
+    const currentIsSupervisor: boolean = this.state.isSupervisor;
+    if (currentIsSupervisor) {
+      this.setState({ isModalShow: false, isSupervisor: false });
+    } else {
+      this.setState({ isModalShow: true, isSupervisor: false });
+    }
+  }
+
+  public handleModalClose() {
+    this.setState({ isModalShow: false });
+  }
+
+  public onChangeSupervisorPassword(e: React.ChangeEvent<HTMLInputElement>) {
+    const password: string = e.target.value;
+    this.setState({ supervisorPassword: password });
+  }
+
+  public onSubmitSupervisorPassword() {
+    console.log(this.state.supervisorPassword);
+    //TODO: check password via API
+
+    this.setState({ isSupervisor: true });
+  }
+
   public render() {
     return (
       <Container fluid>
-        <Navbar className="p-1" bg="dark" variant="dark" expand="lg">
+        <Navbar
+          className="p-1"
+          bg="dark"
+          variant="dark"
+          expand="lg"
+          sticky="top"
+        >
           <Navbar.Brand href="#home">
             <img
               src={logo}
@@ -59,40 +107,103 @@ class Header extends React.Component<Props, State> {
               alt="React"
             />
           </Navbar.Brand>
-          <Nav className="mr-0">
+          <Nav className="mr-auto">
             <Nav.Link className="font-weight-bold" id="home" href="/">
               Home
             </Nav.Link>
             <Nav.Link
-              className="font-weight-bold mr-5"
+              className="font-weight-bold"
               id="overview"
               href={this.state.overviewUrl}
             >
               Overview
             </Nav.Link>
-            <Form inline>
-              <Form.Group className="mr-3" controlId="exampleForm.SelectCustom">
-                <Form.Control
-                  as="select"
-                  custom
-                  onChange={this.onHeaderSelectorChanged}
-                >
-                  <option value="studentID">Student ID</option>
-                  <option value="fileName">File Name</option>
-                </Form.Control>
-              </Form.Group>
-              <FormControl
-                type="text"
-                placeholder="Search Value"
-                className="mr-sm-2"
-                onChange={this.onHeaderInputChanged}
-              />
-              <Button variant="outline-info" onClick={this.onClickSearch}>
-                Search
-              </Button>
-            </Form>
+            <Nav.Link className="font-weight-bold mr-5" id="overview" href="#">
+              Statistics
+            </Nav.Link>
           </Nav>
+          <Form inline>
+            <Form.Group className="mr-3" controlId="exampleForm.SelectCustom">
+              <Form.Control
+                as="select"
+                custom
+                onChange={this.onHeaderSelectorChanged}
+              >
+                <option value="studentID">Student ID</option>
+                <option value="fileName">File Name</option>
+              </Form.Control>
+            </Form.Group>
+            <FormControl
+              type="text"
+              placeholder="Search Value"
+              className="mr-sm-2"
+              onChange={this.onHeaderInputChanged}
+            />
+            <Button variant="outline-info" onClick={this.onClickSearch}>
+              Search
+            </Button>
+          </Form>
+          {this.state.isSupervisor ? (
+            <SupervisorAccountIcon
+              id="isSupervisor"
+              className="ml-4"
+              fontSize="large"
+              color="action"
+              onClick={this.handleModalShow}
+            />
+          ) : (
+            <SupervisorAccountIcon
+              id="isNotSupervisor"
+              className="ml-4"
+              fontSize="large"
+              color="action"
+              onClick={this.handleModalShow}
+            />
+          )}
         </Navbar>
+        <Modal show={this.state.isModalShow} onHide={this.handleModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Superuser Authentication</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {this.state.isSupervisor ? (
+              <p>Authentication Success!</p>
+            ) : (
+              <div>
+                <p className="mb-2">Please input Supervisor Password.</p>
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>Password</InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    type="password"
+                    id="supervisorPassword"
+                    onChange={this.onChangeSupervisorPassword}
+                  />
+                </InputGroup>
+              </div>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            {this.state.isSupervisor ? (
+              <Button variant="primary" onClick={this.handleModalClose}>
+                OK
+              </Button>
+            ) : (
+              <div>
+                <Button variant="secondary" onClick={this.handleModalClose}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={this.onSubmitSupervisorPassword}
+                >
+                  Submit
+                </Button>
+              </div>
+            )}
+          </Modal.Footer>
+        </Modal>
       </Container>
     );
   }

@@ -11,6 +11,7 @@ interface Props
   extends RouteComponentProps<{
     headerSelectorValue: string;
     headerInputValue: string;
+    isSupervisor: string;
   }> {}
 interface State {
   displayStyle: string;
@@ -84,6 +85,7 @@ class Overview extends React.Component<Props, State> {
             headerSelectorValue={this.state.headerSelectorValue}
             headerInputValue={this.state.headerInputValue}
             showUnknownStudents={this.state.showUnknownStudents}
+            isSupervisor={this.props.match.params.isSupervisor}
           />
         </Row>
       </Container>

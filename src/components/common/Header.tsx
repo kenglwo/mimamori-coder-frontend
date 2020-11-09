@@ -12,12 +12,14 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import logo from "../../images/logo.svg";
 import "../../stylesheets/header.scss";
 
-interface Props extends RouteComponentProps {}
+interface Props extends RouteComponentProps {
+  isSupervisor: boolean;
+  changeIsSupervisor: (ifIsSupervisor: boolean) => void;
+}
 interface State {
   headerSelectorValue: string;
   headerInputValue: string;
   overviewUrl: string;
-  isSupervisor: boolean;
   supervisorPassword: string;
   isModalShow: boolean;
   authMessage: string;
@@ -31,8 +33,7 @@ class Header extends React.Component<Props, State> {
     this.state = {
       headerSelectorValue: "studentID",
       headerInputValue: "all",
-      overviewUrl: "/overview/studentID/all",
-      isSupervisor: false,
+      overviewUrl: `/overview/studentID/all/${this.props.isSupervisor}`,
       supervisorPassword: "",
       isModalShow: false,
       authMessage: "Please input Supervisor Password.",
@@ -63,16 +64,16 @@ class Header extends React.Component<Props, State> {
   public onClickSearch() {
     // show  overview ? student view?
     this.props.history.push(
-      `/overview/${this.state.headerSelectorValue}/${this.state.headerInputValue}`
+      `/overview/${this.state.headerSelectorValue}/${this.state.headerInputValue}/${this.props.isSupervisor}}`
     );
   }
 
   public handleModalShow() {
-    const currentIsSupervisor: boolean = this.state.isSupervisor;
-    if (currentIsSupervisor) {
-      this.setState({ isModalShow: false, isSupervisor: false });
+    if (this.props.isSupervisor) {
+      this.setState({ isModalShow: false });
+      this.props.changeIsSupervisor(false);
     } else {
-      this.setState({ isModalShow: true, isSupervisor: false });
+      this.setState({ isModalShow: true });
     }
   }
 
@@ -90,8 +91,6 @@ class Header extends React.Component<Props, State> {
   }
 
   public onSubmitSupervisorPassword() {
-    console.log(this.state.supervisorPassword);
-    //TODO: check password via API
     const url = `${process.env.REACT_APP_API_URL}/api/auth_supervisor`;
 
     const authInfo = {
@@ -105,14 +104,13 @@ class Header extends React.Component<Props, State> {
       "Content-Type": "application/json",
     };
     const body = JSON.stringify(authInfo);
-    console.log(body);
 
     fetch(url, { method, mode, headers, body })
       .then((res) => res.json())
       .then((result) => {
         if (result.status === "success") {
+          this.props.changeIsSupervisor(true);
           this.setState({
-            isSupervisor: true,
             authMessage: "Authentication Success!",
           });
         } else {
@@ -180,30 +178,13 @@ class Header extends React.Component<Props, State> {
               Search
             </Button>
           </Form>
-          {this.state.isSupervisor ? (
-            <SupervisorAccountIcon
-              id="isSupervisor"
-              className="ml-4"
-              fontSize="large"
-              color="action"
-              onClick={this.handleModalShow}
-            />
-          ) : (
-            <SupervisorAccountIcon
-              id="isNotSupervisor"
-              className="ml-4"
-              fontSize="large"
-              color="action"
-              onClick={this.handleModalShow}
-            />
-          )}
         </Navbar>
         <Modal show={this.state.isModalShow} onHide={this.handleModalClose}>
           <Modal.Header closeButton>
             <Modal.Title>Supervisor Authentication</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {this.state.isSupervisor ? (
+            {this.props.isSupervisor ? (
               <p className="mb-2 text-primary font-weight-bold">
                 {this.state.authMessage}
               </p>
@@ -232,7 +213,7 @@ class Header extends React.Component<Props, State> {
             )}
           </Modal.Body>
           <Modal.Footer>
-            {this.state.isSupervisor ? (
+            {this.props.isSupervisor ? (
               <Button variant="primary" onClick={this.handleModalClose}>
                 OK
               </Button>

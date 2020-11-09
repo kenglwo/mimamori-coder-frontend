@@ -13,6 +13,7 @@ interface Props extends RouteComponentProps<{ studentID: string }> {
   headerSelectorValue: string;
   headerInputValue: string;
   showUnknownStudents: boolean;
+  isSupervisor: string;
 }
 interface State {
   studentsTableItems: StudentTableItem[];
@@ -42,7 +43,7 @@ class StudentsTable extends React.Component<Props, State> {
     e: React.MouseEvent<HTMLElement>
   ) => {
     this.props.history.push(
-      `/student/${studentID}/${i}/${this.state.displayOrder}`
+      `/student/${studentID}/${i}/${this.state.displayOrder}/${this.props.isSupervisor}`
     );
   };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -32,9 +32,12 @@ interface Props
     studentID: string;
     currentStudentIDIndex: string;
     displayOrder: string;
+    isSupervisor: string;
   }> {}
+
 interface State extends StudentViewItem {
   studentTableItems: StudentTableItem[];
+  isSupervisor: boolean;
 }
 
 class StudentView extends React.Component<Props, State> {
@@ -53,6 +56,7 @@ class StudentView extends React.Component<Props, State> {
       showLeftColumn: true,
       showMiddleColumn: true,
       showRightColumn: true,
+      isSupervisor: false,
     };
 
     this.showOlderCommit = this.showOlderCommit.bind(this);
@@ -64,6 +68,7 @@ class StudentView extends React.Component<Props, State> {
     this.onChangeShowRight = this.onChangeShowRight.bind(this);
     this.onClickPreviousStudent = this.onClickPreviousStudent.bind(this);
     this.onClickNextStudent = this.onClickNextStudent.bind(this);
+    this.changeIfSupervisor = this.changeIfSupervisor.bind(this);
   }
 
   public showOlderCommit() {
@@ -249,6 +254,10 @@ class StudentView extends React.Component<Props, State> {
     });
   }
 
+  public changeIfSupervisor(ifIsSupervisor: boolean) {
+    this.setState({ isSupervisor: ifIsSupervisor });
+  }
+
   public render() {
     let studentTableItems = this.state.studentTableItems.filter(
       (item) => item.workingFiles[0].fileName !== "unknown"
@@ -275,10 +284,13 @@ class StudentView extends React.Component<Props, State> {
         ? studentTableItems.sort(this.orderByLastUpdatedTimeDesc)
         : studentTableItems;
 
+    console.log(
+      `StudentView-currentCommitIndex: ${this.state.currentCommitIndex}`
+    );
     return (
       <Container fluid>
         <Row>
-          <Col md={6}>
+          <Col>
             <ToolBox
               showLeftColumn={this.state.showLeftColumn}
               showMiddleColumn={this.state.showMiddleColumn}
@@ -288,6 +300,8 @@ class StudentView extends React.Component<Props, State> {
               onChangeShowRight={this.onChangeShowRight}
               onClickPreviousStudent={this.onClickPreviousStudent}
               onClickNextStudent={this.onClickNextStudent}
+              isSupervisor={this.state.isSupervisor}
+              changeIfSupervisor={this.changeIfSupervisor}
             />
           </Col>
         </Row>
@@ -322,6 +336,7 @@ class StudentView extends React.Component<Props, State> {
                     studentID={this.state.studentID}
                     currentCommitIndex={this.state.currentCommitIndex}
                     showRightColumn={this.state.showRightColumn}
+                    isSupervisor={this.state.isSupervisor}
                   />
                 </Col>
               </Row>
@@ -333,4 +348,4 @@ class StudentView extends React.Component<Props, State> {
   }
 }
 
-export default StudentView;
+export default withRouter(StudentView);

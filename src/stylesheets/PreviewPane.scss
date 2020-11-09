@@ -4,3 +4,27 @@ div#preview_pane_wrapper {
 iframe { 
 	height: 1200px !important;
 }
+
+svg#editing {
+	fill: #17a2b8 !important;
+}
+svg#editing:hover {
+	fill: #17a2b8 !important;
+	cursor: pointer;
+}
+
+svg#not_editing {
+	fill: white !important;
+}
+svg#not_editing:hover {
+	fill: white !important;
+	cursor: pointer;
+}
+
+svg#save {
+	fill: white !important;
+}
+svg#save:hover {
+	fill: white !important;
+	cursor: pointer;
+}
